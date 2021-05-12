@@ -3,6 +3,7 @@ import Menu from "./Menu";
 import Routes from "./Routes";
 
 import "./Layout.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 /**
  * Defines the main layout of the application.
