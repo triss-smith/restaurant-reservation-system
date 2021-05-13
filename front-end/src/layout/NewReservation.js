@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import {postReservation} from "../utils/api";
+import {postReservation,} from "../utils/api";
 import {useHistory} from "react-router-dom"
 
 
 function NewReservation({previous}) {
     const history = useHistory();
+    console.log(previous)
     const defaultForm = {
         first_name: "",
         last_name: "", 
@@ -22,7 +23,7 @@ function NewReservation({previous}) {
         setFormData({...formData,[target.name]:target.value })
     }
     function cancelRedirect() {
-        history.push(previous);
+        history.goBack();
     }
     async function handleSubmit(event) {
         event.preventDefault();

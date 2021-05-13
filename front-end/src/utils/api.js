@@ -75,7 +75,7 @@ export async function postReservation(data) {
     headers,
     body: JSON.stringify({data})
   }
- const response =  await fetch(url, options);
+ const response =  await fetchJson(url, options, {});
  console.log(response)
- //return response.json();
+ return response;
 }

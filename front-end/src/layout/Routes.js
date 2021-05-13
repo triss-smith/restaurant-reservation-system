@@ -15,8 +15,7 @@ import NewReservation from "./NewReservation"
  * @returns {JSX.Element}
  */
 function Routes() {
-  const location = useLocation();
-  console.log(location.pathname)
+  
   return (
     <Switch>
       <Route exact={true} path="/">
