@@ -68,12 +68,14 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
-export async function postReseveration(data) {
+export async function postReservation(data) {
   const url = new URL(`${API_BASE_URL}/reservations/new`)
   const options = {
     method: "POST",
     headers,
     body: JSON.stringify({data})
   }
-  await fetchJson(url, options, {});
+ const response =  await fetch(url, options);
+ console.log(response)
+ //return response.json();
 }

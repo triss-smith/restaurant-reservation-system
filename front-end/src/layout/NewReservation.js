@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-//import postReseveration from "./utils/api";
+import {postReservation} from "../utils/api";
+import {useHistory} from "react-router-dom"
 
 
-
-function NewReservation() {
+function NewReservation({previous}) {
+    const history = useHistory();
     const defaultForm = {
         first_name: "",
         last_name: "", 
@@ -20,13 +21,19 @@ function NewReservation() {
         
         setFormData({...formData,[target.name]:target.value })
     }
-
-    const handleSubmit = (event) => {
+    function cancelRedirect() {
+        history.push(previous);
+    }
+    async function handleSubmit(event) {
         event.preventDefault();
         console.log("submitted", formData);
+        await postReservation(formData);
         setFormData(defaultForm)
+
     }
-  return (<form onSubmit={handleSubmit}>
+  return (
+  <div>
+  <form onSubmit={handleSubmit}>
       <label className="formStyle">
         First Name:
       </label>
@@ -82,15 +89,17 @@ function NewReservation() {
         <label className="formStyle">
             Number of people:
         </label>
-        <input 
+        <input className="formStyle"
         name="people"
         value={formData.people}
         onChange={handleChange}
         required={true}
         />
         <br></br>
-        <button type="submit">Submit Here!</button>
+        <button className="btn btn-primary" type="submit">Submit Here!</button>
   </form>
+          <button className="btn btn-danger" onClick={cancelRedirect}>Cancel</button>
+    </div>
   )
 }
 
