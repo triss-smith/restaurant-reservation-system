@@ -4,5 +4,16 @@
 }
 
 .formStyle {
-  margin: 20px
+  margin: 10px 10px 10px 10px;
+  justify-content: center;
+}
+
+input {
+  margin-left: 20px;
+}
+
+@media (max-width: 200px) {
+  label{
+    display: none;
+  }
 }

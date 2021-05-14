@@ -27,10 +27,11 @@ function NewReservation({ previous }) {
     event.preventDefault();
     console.log("submitted", formData);
     await postReservation(formData);
+    history.push(`/dashboard?date=${formData.reservation_date}`)
     setFormData(defaultForm);
   }
   return (
-    <div className="container d-flex-1">          
+    <div className="d-flex-1">          
 
         <form onSubmit={handleSubmit}>
         <div className="row">
@@ -81,7 +82,7 @@ function NewReservation({ previous }) {
             required={true}
           />
           <br></br>
-          <label className="formStyle">Number of people:</label>
+          <label className="formStyle">Party Size:</label>
           <input
             className="formStyle"
             name="people"

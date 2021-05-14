@@ -3,8 +3,9 @@
  */
 const service = require("./reservations.service")
 async function list(req, res) {
+  const response = await service.list();
   res.json({
-    data: [],
+    data: response,
   });
 }
 async function create(req,res,next) {
