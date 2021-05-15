@@ -7,7 +7,9 @@
   margin: 10px 10px 10px 10px;
   justify-content: center;
 }
-
+.center{
+  justify-content: center;
+}
 input {
   margin-left: 20px;
 }
