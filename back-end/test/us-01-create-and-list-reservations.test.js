@@ -49,7 +49,6 @@ describe("US-01 - Create and list reservations", () => {
         .post("/reservations")
         .set("Accept", "application/json")
         .send({ datum: {} });
-        console.log(response)
       expect(response.body.error).toBeDefined();
       expect(response.status).toBe(400);
     });
@@ -333,7 +332,7 @@ describe("US-01 - Create and list reservations", () => {
       expect(response.status).toBe(400);
     });
 
-    test("returns 201 if data is valid", async () => {
+    test.only("returns 201 if data is valid", async () => {
       const data = {
         first_name: "first",
         last_name: "last",
@@ -347,7 +346,7 @@ describe("US-01 - Create and list reservations", () => {
         .post("/reservations")
         .set("Accept", "application/json")
         .send({ data });
-
+      console.log(response)
       expect(response.body.error).toBeUndefined();
       expect(response.body.data).toEqual(
         expect.objectContaining({

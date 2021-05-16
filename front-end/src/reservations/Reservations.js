@@ -5,8 +5,8 @@ function Reservations({ reservations }) {
   const reservationsMap = reservations.map((element, index) => {
     return (
       <div key={index}>
-        <div class="card">
-          <div class="card-body">
+        <div className="card">
+          <div className="card-body">
             <p>{element.first_name} {element.last_name}</p>
             
             <p>{element.mobile_number}</p>

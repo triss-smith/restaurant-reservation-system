@@ -34,7 +34,7 @@ describe("US-02 - Create reservations future date", () => {
         .post("/reservations")
         .set("Accept", "application/json")
         .send({ data });
-
+      console.log(response.body);
       expect(response.body.error).toContain("future");
       expect(response.status).toBe(400);
     });
