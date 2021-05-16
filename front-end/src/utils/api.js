@@ -69,7 +69,7 @@ export async function listReservations(params, signal) {
 }
 
 export async function postReservation(data) {
-  const url = new URL(`${API_BASE_URL}/reservations/new`)
+  const url = new URL(`${API_BASE_URL}/reservations`)
   const options = {
     method: "POST",
     headers,
@@ -78,4 +78,8 @@ export async function postReservation(data) {
  const response =  await fetchJson(url, options, {});
  console.log(response)
  return response;
+}
+
+export async function deleteReservation(reservationId) {
+  
 }

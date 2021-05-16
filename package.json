@@ -49,6 +49,7 @@
   "author": "Thinkful, Inc.",
   "license": "UNLICENSED",
   "dependencies": {
-    "bootstrap": "^5.0.0"
+    "bootstrap": "^5.0.0",
+    "moment": "^2.29.1"
   }
 }

@@ -5,7 +5,8 @@ function list(date){
 }
 
 function create(reservation) {
-    return knex("reservations").insert(reservation).returning("*");
+    return knex("reservations").insert(reservation).returning(["first_name", "last_name", "mobile_number", 
+    "reservation_date", "reservation_time", "people"]);
 }
 
 module.exports = {

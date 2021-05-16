@@ -18,7 +18,7 @@ function Dashboard({ date, setDate }) {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
-    if(reservations == []) {
+    if(reservations === []) {
       listReservations(today(), abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
@@ -52,12 +52,13 @@ function Dashboard({ date, setDate }) {
         <h4 className="mb-0">Reservations for date</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <Reservations reservations={reservations}/>
-      <div class="btn-group btn-group-lg d-flex justify-content-center" role="group" aria-label="...">
+      <div class="btn-group btn-group-lg d-flex justify-content-center py-5" role="group" aria-label="...">
       <button className="btn btn-info" onClick={previousDayHandler}>Previous Day</button>
       <button className="btn btn-primary" onClick={todayHandler}>Today</button>
       <button className="btn btn-info" onClick={nextDayHandler}>Next Day</button>
       </div>
+      <Reservations reservations={reservations}/>
+      
     </main>
   );
 }

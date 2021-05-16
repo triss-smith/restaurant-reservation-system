@@ -49,7 +49,7 @@ describe("US-01 - Create and list reservations", () => {
         .post("/reservations")
         .set("Accept", "application/json")
         .send({ datum: {} });
-
+        console.log(response)
       expect(response.body.error).toBeDefined();
       expect(response.status).toBe(400);
     });
