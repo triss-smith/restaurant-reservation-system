@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { postReservation } from "../utils/api";
 import { useHistory } from "react-router-dom";
 import ReservationError from "./ReservationError";
+import moment from "moment";
+//import { set } from "../../../back-end/src/app";
 
 function NewReservation({ date, setDate }) {
   const [errors, setErrors] = useState([]);
@@ -24,32 +26,51 @@ function NewReservation({ date, setDate }) {
     if (errors) {
       setErrors([]);
     }
-    const formDateGet = new Date(
-      `${formData.reservation_date} ${formData.reservation_time} `
-    );
-
-    console.log(formDateGet.getHours() * 100, formDateGet.getMinutes());
-
+    
     setFormData({ ...formData, [target.name]: target.value });
+    console.log(formData.reservation_date)
+    /*if(target.value.length == 7 && (moment(target.value, ["hh:mmAA"]).isValid())) {
+      let formattedTime = moment(target.value, ["h:mmA"]).format("HH:mm")
+      
+      setFormData({...formData,reservation_time:formattedTime})
+      console.log(formData.reservation_time)
+    }*/
   };
-
-  function validHours() {}
 
   function cancelRedirect() {
     history.goBack();
   }
   function dateInPast(firstDate, today) {
     const formDate = new Date(firstDate);
-    if (formDate.setHours(0, 0, 0, 0) <= today.setHours(0, 0, 0, 0)) {
+    if (formDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+      console.log(formDate.setHours(0, 0, 0, 0) - today.setHours(0, 0, 0, 0));
       return true;
     }
 
     return false;
   }
-
+  /*const timeHandler = ({target}) => {
+    
+    console.log((moment(target.value, ["hh:mmAA"]).isValid()))
+    if((moment(target.value, ["hh:mmAA"]).isValid())) {
+      let formattedTime = moment(target.value, ["h:mmA"]).format("HH:mm")
+      
+      setFormData({...formData,reservation_time:formattedTime})
+      console.log(formData.reservation_time)
+    }
+  }*/
+  
   async function handleSubmit(event) {
     event.preventDefault();
-    const formDataDate = new Date(`${formData.reservation_date}T00:00:00`);
+    if((moment(formData.reservation_time, ["hh:mmAA"]).isValid())) {
+      let formattedTime = moment(formData.reservation_time, ["h:mmA"]).format("HH:mm")
+      console.log(formattedTime)
+     await setFormData({...formData,reservation_time:formattedTime})
+    }
+    const formDataDate = new Date(
+      `${formData.reservation_date}T${formData.reservation_time}`
+    );
+    console.log(formDataDate);
     const openingTime = 1030;
     const closingTime = 2130;
     const formDateGet = new Date(
@@ -57,6 +78,7 @@ function NewReservation({ date, setDate }) {
     );
 
     const formDate = formDateGet.getHours() * 100 + formDateGet.getMinutes();
+    console.log(formDate)
     if (formDate < openingTime) {
       return setErrors((errors) => [...errors, "Error: Before opening time!!"]);
     }
@@ -66,8 +88,7 @@ function NewReservation({ date, setDate }) {
         "Error: After reservation cutoff time",
       ]);
     }
-
-    if (dateInPast(formData.reservation_date, todayDate)) {
+    if (dateInPast(formDataDate, todayDate)) {
       if (formDataDate.getDay() === 2) {
         setErrors((errors) => [...errors, "Date is on Tuesday"]);
       }
@@ -86,19 +107,20 @@ function NewReservation({ date, setDate }) {
     <div className="d-flex-1">
       <ReservationError errors={errors} setErrors={setErrors} />
       <h2>Create Reservation</h2>
-      <form onSubmit={handleSubmit} className="py-4">
-      <div class="form-group">
-        <label for="first_name">First Name:</label>
-        <input
-          name="first_name"
-          value={formData.first_name}
-          onChange={handleChange}
-          required={true}
-          className="form-control"
-        />
+      <form onSubmit={handleSubmit} className="py-4" autoComplete="off">
+        <div className="form-group">
+          <label htmlFor="first_name">First Name:</label>
+          <input
+            type="search"
+            name="first_name"
+            value={formData.first_name}
+            onChange={handleChange}
+            required={true}
+            className="form-control"
+          />
         </div>
-        <div class="form-group">
-          <label for="last_name">Last Name:</label>
+        <div className="form-group">
+          <label htmlFor="last_name">Last Name:</label>
           <input
             name="last_name"
             value={formData.last_name}
@@ -108,8 +130,8 @@ function NewReservation({ date, setDate }) {
           />
         </div>
 
-        <div class="form-group">
-          <label for="mobile_number">Mobile Number:</label>
+        <div className="form-group">
+          <label htmlFor="mobile_number">Mobile Number:</label>
           <input
             name="mobile_number"
             type="tel"
@@ -137,9 +159,10 @@ function NewReservation({ date, setDate }) {
           />
         </div>
 
-        <div class="form-group">
-          <label for="reservation_date">Date of Reservation:</label>
+        <div className="form-group">
+          <label htmlFor="reservation_date">Date of Reservation:</label>
           <input
+            type="date"
             name="reservation_date"
             className="form-control"
             value={formData.reservation_date}
@@ -149,26 +172,28 @@ function NewReservation({ date, setDate }) {
           />
         </div>
         <div className="form-group">
-          <label for="reservation_time">Time of Reservation:</label>
+          <label htmlFor="reservation_time">Time of Reservation:</label>
           <input
+            type="time"
             name="reservation_time"
             className="form-control"
             value={formData.reservation_time}
             onChange={handleChange}
             required={true}
-            maxLength="5"
+            maxLength="8"
           />
         </div>
-        <div class="form-group">
-          <label for="people">Party Size:</label>
+        <div className="form-group">
+          <label htmlFor="people">Party Size:</label>
           <input
             className="form-control"
             name="people"
             value={formData.people}
-            onChange={handleChange}
-            required={true}
             type="number"
             min="1"
+            onChange={handleChange}
+            default="1"
+            required={true}
           />
         </div>
         <div

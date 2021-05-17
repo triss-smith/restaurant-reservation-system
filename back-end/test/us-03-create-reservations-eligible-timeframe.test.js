@@ -35,13 +35,14 @@ describe("US-03 - Create reservations eligible timeframe", () => {
         .set("Accept", "application/json")
         .send({ data });
       expect(response.status).toBe(400);
-
+      console.log(response.body);
       data.reservation_time = "23:30";
       response = await request(app)
         .post("/reservations")
         .set("Accept", "application/json")
         .send({ data });
       expect(response.status).toBe(400);
+      console.log(response.body);
 
       data.reservation_time = "22:45";
       response = await request(app)
@@ -49,6 +50,7 @@ describe("US-03 - Create reservations eligible timeframe", () => {
         .set("Accept", "application/json")
         .send({ data });
       expect(response.status).toBe(400);
+      console.log(response.body);
 
       data.reservation_time = "05:30";
       response = await request(app)
@@ -56,6 +58,8 @@ describe("US-03 - Create reservations eligible timeframe", () => {
         .set("Accept", "application/json")
         .send({ data });
       expect(response.status).toBe(400);
+      console.log(response.body);
+
     });
   });
 });

@@ -29,8 +29,10 @@ function Routes() {
       <Route path="/reservations/new">
         <NewReservation date={date} setDate={setDate}/>
       </Route>
+      
+      
       <Route path="/dashboard">
-        <Dashboard date={date} setDate={setDate}/>
+      <Dashboard date={date} setDate={setDate}/>
       </Route>
       <Route path="/tables/new">
         <NewTable />

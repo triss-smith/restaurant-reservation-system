@@ -4,7 +4,7 @@ function ReservationError({errors, setErrors}) {
 
     if(errors){ 
         const errorMap = errors.map((element,index) => {
-            return (<div key={index} className="alert alert-danger my-2">
+            return (<div key={index} className="alert alert-danger">
                 <p>{element}</p>
             </div>)
         })
