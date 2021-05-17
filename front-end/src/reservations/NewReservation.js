@@ -33,9 +33,7 @@ function NewReservation({ date, setDate }) {
     setFormData({ ...formData, [target.name]: target.value });
   };
 
-  function validHours() {
-    
-  }
+  function validHours() {}
 
   function cancelRedirect() {
     history.goBack();
@@ -59,14 +57,16 @@ function NewReservation({ date, setDate }) {
     );
 
     const formDate = formDateGet.getHours() * 100 + formDateGet.getMinutes();
-    if(formDate < openingTime) {
-     return  setErrors((errors) => [...errors, "Error: Before opening time!!"]);
-      
+    if (formDate < openingTime) {
+      return setErrors((errors) => [...errors, "Error: Before opening time!!"]);
     }
-    if(formDate > closingTime) {
-      return setErrors((errors) => [...errors, "Error: After reservation cutoff time"])
+    if (formDate > closingTime) {
+      return setErrors((errors) => [
+        ...errors,
+        "Error: After reservation cutoff time",
+      ]);
     }
-    
+
     if (dateInPast(formData.reservation_date, todayDate)) {
       if (formDataDate.getDay() === 2) {
         setErrors((errors) => [...errors, "Date is on Tuesday"]);
@@ -82,96 +82,106 @@ function NewReservation({ date, setDate }) {
     );
   }
 
-
   return (
     <div className="d-flex-1">
-      <ReservationError errors={errors} setErrors={setErrors}/>
+      <ReservationError errors={errors} setErrors={setErrors} />
+      <h2>Create Reservation</h2>
       <form onSubmit={handleSubmit} className="py-4">
-        <div className="row">
-          <div className="col-md-5">
-            <label className="formStyle">First Name:</label>
-            <input
-              name="first_name"
-              value={formData.first_name}
-              onChange={handleChange}
-              
-              required={true}
-            />
-            <br></br>
-            <label className="formStyle">Last Name:</label>
-            <input
-              name="last_name"
-              value={formData.last_name}
-              onChange={handleChange}
-              required={true}
-            />
-            <br></br>
-            <label className="formStyle">Mobile Number:</label>
-            <input
-              name="mobile_number"
-              type="tel"
-              value={formData.mobile_number}
-              onChange={handleChange}
-              onBlur={() => {
-                if(formData.mobile_number != "") {
-                  if(formData.mobile_number.length == 10){
-                const formatted = `${formData.mobile_number.slice(0,3)}-${formData.mobile_number.slice(3,6)}-${formData.mobile_number.slice(6)}`
-                setFormData({...formData, mobile_number: formatted})
-                console.log(formatted)
-                  }
-                }
-              }}
-              required={true}
-              maxLength="12"
-              placeholder="ex. 1234567890"
-            />
-          </div>
+      <div class="form-group">
+        <label for="first_name">First Name:</label>
+        <input
+          name="first_name"
+          value={formData.first_name}
+          onChange={handleChange}
+          required={true}
+          className="form-control"
+        />
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last Name:</label>
+          <input
+            name="last_name"
+            value={formData.last_name}
+            onChange={handleChange}
+            required={true}
+            className="form-control"
+          />
+        </div>
 
-          <br></br>
-          <div className="col-md-5">
-            <label className="formStyle">Date of Reservation:</label>
-            <input
-              name="reservation_date"
-              value={formData.reservation_date}
-              onChange={handleChange}
-              required={true}
-              maxLength="10"
-            />
-            <br></br>
-            <label className="formStyle">Time of Reservation:</label>
-            <input
-              name="reservation_time"
-              value={formData.reservation_time}
-              onChange={handleChange}
-              required={true}
-              maxLength="5"
-            />
-            <br></br>
-            <label className="formStyle">Party Size:</label>
-            <input
-              className="formStyle"
-              name="people"
-              value={formData.people}
-              onChange={handleChange}
-              required={true}
-            />
-          </div>
-          <br></br>
-          <div
-            className="btn-group btn-group-lg d-flex justify-content-center py-5"
-            role="group"
-            aria-label="..."
-          >
-            <button className="btn btn-primary mx-2 w-50" type="submit">
-              Submit Here!
-            </button>
-            <button
-              className="btn btn-danger mx-2 w-50"
-              onClick={cancelRedirect}
-            >
-              Cancel
-            </button>
-          </div>
+        <div class="form-group">
+          <label for="mobile_number">Mobile Number:</label>
+          <input
+            name="mobile_number"
+            type="tel"
+            value={formData.mobile_number}
+            onChange={handleChange}
+            onBlur={() => {
+              if (formData.mobile_number != "") {
+                if (formData.mobile_number.length == 10) {
+                  const formatted = `${formData.mobile_number.slice(
+                    0,
+                    3
+                  )}-${formData.mobile_number.slice(
+                    3,
+                    6
+                  )}-${formData.mobile_number.slice(6)}`;
+                  setFormData({ ...formData, mobile_number: formatted });
+                  console.log(formatted);
+                }
+              }
+            }}
+            required={true}
+            maxLength="12"
+            placeholder="ex. 1234567890"
+            className="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reservation_date">Date of Reservation:</label>
+          <input
+            name="reservation_date"
+            className="form-control"
+            value={formData.reservation_date}
+            onChange={handleChange}
+            required={true}
+            maxLength="10"
+          />
+        </div>
+        <div className="form-group">
+          <label for="reservation_time">Time of Reservation:</label>
+          <input
+            name="reservation_time"
+            className="form-control"
+            value={formData.reservation_time}
+            onChange={handleChange}
+            required={true}
+            maxLength="5"
+          />
+        </div>
+        <div class="form-group">
+          <label for="people">Party Size:</label>
+          <input
+            className="form-control"
+            name="people"
+            value={formData.people}
+            onChange={handleChange}
+            required={true}
+            type="number"
+            min="1"
+          />
+        </div>
+        <div
+          className="btn-group btn-group-lg d-flex justify-content-center py-5"
+          role="group"
+          aria-label="..."
+        >
+          <button className="btn btn-primary mx-2 w-50" type="submit">
+            Submit Here!
+          </button>
+          <button className="btn btn-danger mx-2 w-50" onClick={cancelRedirect}>
+            Cancel
+          </button>
         </div>
       </form>
     </div>

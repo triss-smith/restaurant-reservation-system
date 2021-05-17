@@ -10,6 +10,9 @@
 .center{
   justify-content: center;
 }
+.card-width{
+  width: 20rem;
+}
 input {
   margin-left: 20px;
 }
