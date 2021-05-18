@@ -32,7 +32,7 @@ function Routes() {
       
       
       <Route path="/dashboard">
-      <Dashboard date={date} setDate={setDate}/>
+        <Dashboard date={date} setDate={setDate} />
       </Route>
       <Route path="/tables/new">
         <NewTable />

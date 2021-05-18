@@ -10,7 +10,7 @@ import { today } from "../utils/date-time"
 
 function Menu() {
   return (
-    <nav className="navbar navbar-dark align-items-start p-0 h-100 d-inline-block">
+    <nav className="navbar navbar-dark align-items-start m-0 h-100 d-inline-block">
       <div className="container-fluid d-flex flex-column p-0 ">
         <Link
           className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"

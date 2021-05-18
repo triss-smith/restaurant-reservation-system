@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom"
-function Reservations({ reservations }) {
+function Reservations({ reservations, date }) {
   const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
-  
+  const selectedDate = new Date(`${date}T00:00:00`);
   const reservationsMap = reservations.map((element, index) => {
     const reservationDateTime = new Date(`${element.reservation_date} ${element.reservation_time}`);
     let hours = reservationDateTime.getHours();
@@ -29,6 +29,16 @@ function Reservations({ reservations }) {
       
     );
   });
+  console.log(selectedDate.getDay())
+  if(selectedDate.getDay() == 2) {
+    return(
+    <div className="container d-flex-2">
+  <div className="row justify-content-center">
+    <h2>Closed on Tuesdays</h2>
+    </div>
+    </div>
+    )
+  }
   return (
   <div className="container d-flex-2">
   <div className="row justify-content-center">

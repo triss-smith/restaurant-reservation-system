@@ -26,7 +26,10 @@ function NewReservation({ date, setDate }) {
     if (errors) {
       setErrors([]);
     }
-    
+    if(target.name == "people"){
+      return setFormData({...formData, [target.name]:Number(target.value)})
+      console.log(formData.people)
+    }
     setFormData({ ...formData, [target.name]: target.value });
     console.log(formData.reservation_date)
     /*if(target.value.length == 7 && (moment(target.value, ["hh:mmAA"]).isValid())) {
@@ -98,6 +101,7 @@ function NewReservation({ date, setDate }) {
       return setErrors((errors) => [...errors, "Date is on Tuesday"]);
     }
     setDate(formData.reservation_date);
+    console.log(formData)
     postReservation(formData).then(() =>
       history.push(`/dashboard?date=${date}`)
     );
