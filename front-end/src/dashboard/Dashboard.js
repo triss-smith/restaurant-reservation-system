@@ -22,23 +22,31 @@ function Dashboard({ date, setDate }) {
   }
   const dateQuery = useQuery()
   const history = useHistory();
-  console.log(dateQuery)
+  const { pathname, search } = useLocation();
+  console.log(search)
+  console.log(dateQuery.get("date"))
   /*useEffect(() => {
     if(dateQuery.get("date")){
     setDate(date)}}
   ,[])*/
+
+  /*loadDashboard() 
+  *if reservations is empty OR the url does not contain a query, it defaults to loading the reservations for the current date
+  *and sets the date state to the current date. useEffect is only needed once in this configuration.
+  */
   function loadDashboard() {
     const abortController = new AbortController();
-    
     setReservationsError(null);
-    if (reservations === [] || dateQuery.get("date") == null) {
-      setDate(today())
+    if (pathname === "/dashboard" && !search) {
+      console.log("this is what's not working")
+      setDate(today()) 
       listReservations(today(), abortController.signal)
         .then(setReservations)
         .catch(setReservationsError);
-    }
+    } 
      else {
-      setDate(dateQuery.get('date'))
+      //setDate(dateQuery.get('date'))
+      setDate(dateQuery.get("date"));
       listReservations( dateQuery.get("date"), abortController.signal)
         .then(setReservations)
         .catch(setReservationsError);
@@ -47,6 +55,10 @@ function Dashboard({ date, setDate }) {
   }
   useEffect(loadDashboard, [date]);
 
+  /*nextDayHandler, todayHandler, previousDayHandler
+  *sets the date state to the proceeding, current, and previous date, respectively using the next() function from ./utils/date-time
+  *Called with the Link elements
+  */
   function nextDayHandler() {
    setDate(() => next(date));
     

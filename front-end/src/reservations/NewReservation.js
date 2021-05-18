@@ -3,13 +3,13 @@ import { postReservation } from "../utils/api";
 import { useHistory } from "react-router-dom";
 import ReservationError from "./ReservationError";
 import moment from "moment";
-//import { set } from "../../../back-end/src/app";
 
 function NewReservation({ date, setDate }) {
   const [errors, setErrors] = useState([]);
 
   const todayDate = new Date();
   const history = useHistory();
+  //Default form for formData
   const defaultForm = {
     first_name: "",
     last_name: "",
@@ -21,28 +21,29 @@ function NewReservation({ date, setDate }) {
   const [formData, setFormData] = useState({
     ...defaultForm,
   });
-
+  /*handleChange
+   * handles the data inputted from the form input elements. Takes the target element's name and value attributes(corresponding with formData)
+   * and updates formData
+   */
   const handleChange = ({ target }) => {
     if (errors) {
       setErrors([]);
     }
-    if(target.name == "people"){
-      return setFormData({...formData, [target.name]:Number(target.value)})
-      console.log(formData.people)
+    if (target.name == "people") {
+      return setFormData({ ...formData, [target.name]: Number(target.value) });
     }
     setFormData({ ...formData, [target.name]: target.value });
-    console.log(formData.reservation_date)
-    /*if(target.value.length == 7 && (moment(target.value, ["hh:mmAA"]).isValid())) {
-      let formattedTime = moment(target.value, ["h:mmA"]).format("HH:mm")
-      
-      setFormData({...formData,reservation_time:formattedTime})
-      console.log(formData.reservation_time)
-    }*/
   };
-
+  /*cancelRedirect
+   * simple function to handle the push to the previous page on cancel
+   */
   function cancelRedirect() {
     history.goBack();
   }
+  /*dateInPast
+   * accepts the date to be checked and the current date.
+   * Returns true if the date is in the past, false if not.
+   */
   function dateInPast(firstDate, today) {
     const formDate = new Date(firstDate);
     if (formDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
@@ -52,28 +53,22 @@ function NewReservation({ date, setDate }) {
 
     return false;
   }
-  /*const timeHandler = ({target}) => {
-    
-    console.log((moment(target.value, ["hh:mmAA"]).isValid()))
-    if((moment(target.value, ["hh:mmAA"]).isValid())) {
-      let formattedTime = moment(target.value, ["h:mmA"]).format("HH:mm")
-      
-      setFormData({...formData,reservation_time:formattedTime})
-      console.log(formData.reservation_time)
-    }
-  }*/
-  
+
+  /*handleSubmit
+   * main function that handles the final checks to the data.
+   * Uses Date.getHours() and Date.getMinutes() to compare the requested time against the invalid time ranges
+   * Checks to make sure the date is present or future using dateInPast
+   * Sets the date state to the formData's reservation_date to allow for proper redirect and dashboard functionality
+   * Calls postReservation from ../utils/api.js
+   * On resolve the user is pushed to the dashboard with a query containing the date
+   * for display of all reservations for the date provided.
+   */
   async function handleSubmit(event) {
     event.preventDefault();
-    if((moment(formData.reservation_time, ["hh:mmAA"]).isValid())) {
-      let formattedTime = moment(formData.reservation_time, ["h:mmA"]).format("HH:mm")
-      console.log(formattedTime)
-     await setFormData({...formData,reservation_time:formattedTime})
-    }
+
     const formDataDate = new Date(
       `${formData.reservation_date}T${formData.reservation_time}`
     );
-    console.log(formDataDate);
     const openingTime = 1030;
     const closingTime = 2130;
     const formDateGet = new Date(
@@ -81,7 +76,7 @@ function NewReservation({ date, setDate }) {
     );
 
     const formDate = formDateGet.getHours() * 100 + formDateGet.getMinutes();
-    console.log(formDate)
+    console.log(formDate);
     if (formDate < openingTime) {
       return setErrors((errors) => [...errors, "Error: Before opening time!!"]);
     }
@@ -100,11 +95,12 @@ function NewReservation({ date, setDate }) {
     if (formDataDate.getDay() === 2) {
       return setErrors((errors) => [...errors, "Date is on Tuesday"]);
     }
-    setDate(formData.reservation_date);
-    console.log(formData)
-    postReservation(formData).then(() =>
-      history.push(`/dashboard?date=${date}`)
-    );
+    console.log(formData);
+    await postReservation(formData).then(() =>{
+      //setDate(formData.reservation_date);
+
+      history.push(`/dashboard?date=${formData.reservation_date}`)
+    });
   }
 
   return (
