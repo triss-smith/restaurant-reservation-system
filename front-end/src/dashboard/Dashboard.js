@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation, Link, useParams } from "react-router-dom";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { previous, next, today } from "../utils/date-time";
 import Reservations from "../reservations/Reservations";
+import Tables from "../tables/Tables";
 
 /**
  * Defines the dashboard page.
@@ -15,20 +16,18 @@ function Dashboard({ date, setDate }) {
 
   console.log(date)
   const [reservations, setReservations] = useState([]);
+  const [tables, setTables] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  
 
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }
   const dateQuery = useQuery()
-  const history = useHistory();
   const { pathname, search } = useLocation();
   console.log(search)
   console.log(dateQuery.get("date"))
-  /*useEffect(() => {
-    if(dateQuery.get("date")){
-    setDate(date)}}
-  ,[])*/
+  
 
   /*loadDashboard() 
   *if reservations is empty OR the url does not contain a query, it defaults to loading the reservations for the current date
@@ -37,6 +36,9 @@ function Dashboard({ date, setDate }) {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
+    listTables(abortController.signal)
+    .then(setTables)
+    .catch(setReservationsError);
     if (pathname === "/dashboard" && !search) {
       console.log("this is what's not working")
       setDate(today()) 
@@ -53,6 +55,7 @@ function Dashboard({ date, setDate }) {
     }
     return () => abortController.abort();
   }
+  
   useEffect(loadDashboard, [date]);
 
   /*nextDayHandler, todayHandler, previousDayHandler
@@ -99,7 +102,10 @@ function Dashboard({ date, setDate }) {
         <div className="col-md-6">
           <Reservations reservations={reservations} date={date}/>
         </div>
-        <div className="col-md-6"></div>
+        <div className="col-md-6">
+        <Tables tables={tables} />
+        </div>
+        
       </div>
     </main>
   );
