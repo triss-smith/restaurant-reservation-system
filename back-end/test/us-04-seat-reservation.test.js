@@ -140,7 +140,7 @@ describe("US-04 - Seat reservation", () => {
           .post("/tables")
           .set("Accept", "application/json")
           .send({ data });
-
+        console.log(response);
         expect(response.body.error).toBeUndefined();
         expect(response.body.data).toEqual(expect.objectContaining(data));
         expect(response.status).toBe(201);
@@ -208,7 +208,6 @@ describe("US-04 - Seat reservation", () => {
           .put(`/tables/${tableOne.table_id}/seat`)
           .set("Accept", "application/json")
           .send({ data });
-
         expect(response.body.error).toContain("reservation_id");
         expect(response.status).toBe(400);
       });
@@ -236,7 +235,6 @@ describe("US-04 - Seat reservation", () => {
           .put(`/tables/${tableOne.table_id}/seat`)
           .set("Accept", "application/json")
           .send({ data: { reservation_id: 1 } });
-
         expect(response.body.error).toBeUndefined();
         expect(response.status).toBe(200);
       });

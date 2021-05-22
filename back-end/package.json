@@ -38,7 +38,8 @@
     "pg": "^8.5.1",
     "pino": "^6.11.0",
     "pino-http": "^5.3.0",
-    "pino-pretty": "^4.3.0"
+    "pino-pretty": "^4.3.0",
+    "xss": "^1.0.9"
   },
   "devDependencies": {
     "jest": "^26.6.3",

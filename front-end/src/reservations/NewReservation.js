@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { postReservation } from "../utils/api";
 import { useHistory } from "react-router-dom";
-import ReservationError from "./ReservationError";
+import ValidationError from "../layout/ValidationError";
 import moment from "moment";
 
 function NewReservation({ date, setDate }) {
@@ -105,7 +105,7 @@ function NewReservation({ date, setDate }) {
 
   return (
     <div className="d-flex-1">
-      <ReservationError errors={errors} setErrors={setErrors} />
+      <ValidationError errors={errors} setErrors={setErrors} />
       <h2>Create Reservation</h2>
       <form onSubmit={handleSubmit} className="py-4" autoComplete="off">
         <div className="form-group">

@@ -1,22 +1,36 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { postTables } from "../utils/api"
 
-function NewTable({ reservations }) {
+import ValidationError from "../layout/ValidationError";
+
+function NewTable() {
   const history = useHistory();
   const defaultForm = {
     table_name: "",
-    capacity: 1,
+    capacity: "",
   };
   const [formData, setFormData] = useState({ ...defaultForm });
-
+  const [errors, setErrors] = useState([])
   const changeHandler = ({ target }) => {
     setFormData({ ...formData, [target.name]: target.value });
     console.log(formData);
   };
   async function handleSubmit(event) {
       event.preventDefault();
-      history.push("/dashboard")
-      console.log("submitted", formData)
+      if(formData.table_name.length <= 1) {
+        return setErrors((errors) => [...errors, "Table name must be at least 2 characters long!"])
+      }
+      if(formData.capacity < 1) {
+        return setErrors((errors) => [...errors, "Table must have a capacity of at least 1!"])
+      }
+    if(formData.table_name === "" || formData.capacity == "") {
+        return setErrors((errors) => [...errors, "Must fill data!"])
+      }
+      console.log(formData)
+      postTables(formData).then(() => {history.push("/dashboard")}
+      )
+
   }
   function cancelRedirect() {
       history.goBack();
@@ -24,6 +38,7 @@ function NewTable({ reservations }) {
   return (
     <div className="d-flex-1">
       <h2>New Table</h2>
+      <ValidationError errors={errors} setErrors={setErrors}/>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="table_name">Table Name</label>
@@ -46,7 +61,7 @@ function NewTable({ reservations }) {
             name="capacity"
             value={formData.capacity}
             onChange={changeHandler}
-            min="1"
+            
             required={true}
           />
         </div>

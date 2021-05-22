@@ -1,6 +1,6 @@
 import React from "react";
 
-function ReservationError({errors, setErrors}) {
+function ValidationError({errors, setErrors}) {
 
     if(errors){ 
         const errorMap = errors.map((element,index) => {
@@ -17,4 +17,4 @@ function ReservationError({errors, setErrors}) {
     return null
 }
 
-export default ReservationError;
+export default ValidationError;

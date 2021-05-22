@@ -6,6 +6,7 @@ import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import NewReservation from "../reservations/NewReservation"
 import NewTable from "../tables/NewTable"
+import SeatTable from "../tables/SeatTable"
 
 
 /**
@@ -23,8 +24,8 @@ function Routes() {
       <Route exact={true} path="/">
         <Redirect to={"/dashboard"} />
       </Route>
-      <Route path="reservations/:reservationId/seat">
-
+      <Route path="/reservations/:reservationId/seat">
+        <SeatTable />
       </Route>
       <Route exact={true} path="/reservations">
         <Redirect to={"/dashboard"} />

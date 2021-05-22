@@ -37,10 +37,8 @@ describe("US-04 - Seat reservation - E2E", () => {
 
     test("filling and submitting form creates a new table", async () => {
       const tableName = `#${Date.now().toString(10)}`;
-
       await page.type("input[name=table_name]", tableName);
       await page.type("input[name=capacity]", "6");
-
       await page.screenshot({
         path: ".screenshots/us-04-create-table-submit-before.png",
         fullPage: true,
@@ -50,12 +48,10 @@ describe("US-04 - Seat reservation - E2E", () => {
         page.click("button[type=submit]"),
         page.waitForNavigation({ waitUntil: "networkidle0" }),
       ]);
-
       await page.screenshot({
         path: ".screenshots/us-04-create-table-submit-after.png",
         fullPage: true,
       });
-
       await expect(page).toMatch(tableName);
     });
     test("omitting table_name and submitting does not create a new table", async () => {
@@ -193,7 +189,6 @@ describe("US-04 - Seat reservation - E2E", () => {
         path: ".screenshots/us-04-seat-reservation-submit-after.png",
         fullPage: true,
       });
-
       expect(page.url()).toContain("/dashboard");
       expect(page).toMatch(/occupied/i);
     });
@@ -229,7 +224,6 @@ describe("US-04 - Seat reservation - E2E", () => {
       });
 
       const hrefSelector = `[href="/reservations/${reservation.reservation_id}/seat"]`;
-
       await page.waitForSelector(hrefSelector);
 
       await page.screenshot({

@@ -11,6 +11,7 @@ const hasData = (req, res, next) => {
   }
   next({ status: 400, message: "data" });
 };
+
 const hasCorrectData = (req, res, next) => {
   const data = req.body.data;
   const date = moment(data.reservation_date, "YYYY-MM-DD", true).isValid();
@@ -92,10 +93,21 @@ async function list(req, res) {
 async function create(req, res, next) {
   try {
     const response = await service.create(req.body.data);
-    res.status(201).json({ data: response[0] });
+    res.status(201).json({ data: response });
   } catch (error) {
     console.log(error);
     next({ status: 400, message: { error } });
+  }
+}
+async function read(req,res,next) {
+  try {
+    const response = await service.read(req.params.reservation_id);
+    if(!response) {
+      next({status:404, message:`Id not found: ${req.params.reservation_id}`})
+    }
+    res.status(200).json({data:response});
+  } catch(error) {
+    next({status:400, message: error})
   }
 }
 module.exports = {
@@ -108,4 +120,5 @@ module.exports = {
     timeIsValid,
     asyncErrorBoundary(create),
   ],
+  read
 };
