@@ -61,43 +61,42 @@ describe("US-05 - Finish an occupied table - E2E", () => {
         path: ".screenshots/us-05-dashboard-finish-button-before.png",
         fullPage: true,
       });
-
+      console.log("before ss");
       const containsOccupied = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
         "occupied"
       );
-
       expect(containsOccupied).toBe(true);
-
+        console.log("containsOccupied should be true", containsOccupied);
       const finishButtonSelector = `[data-table-id-finish="${table.table_id}"]`;
+        console.log("finishButtonSelected")
       await page.waitForSelector(finishButtonSelector);
-
       page.on("dialog", async (dialog) => {
         expect(dialog.message()).toContain(
           "Is this table ready to seat new guests?"
         );
         await dialog.accept();
       });
-
+      console.log("dialog opened");
       await page.click(finishButtonSelector);
-
+      console.log("finish button clicked");
       await page.waitForResponse((response) => {
         return response.url().endsWith(`/tables`);
       });
-
+      console.log('wait for response')
       await page.screenshot({
         path: ".screenshots/us-05-dashboard-finish-button-after.png",
         fullPage: true,
       });
-
       const containsFree = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
         "free"
       );
-
+        console.log("containsFree", containsFree)
       expect(containsFree).toBe(true);
+
     });
 
     test("clicking finish button and then clicking CANCEL does nothing", async () => {
@@ -105,7 +104,6 @@ describe("US-05 - Finish an occupied table - E2E", () => {
         path: ".screenshots/us-05-dashboard-finish-button-cancel-before.png",
         fullPage: true,
       });
-
       const containsOccupied = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
@@ -123,7 +121,6 @@ describe("US-05 - Finish an occupied table - E2E", () => {
         );
         await dialog.dismiss();
       });
-
       await page.click(finishButtonSelector);
 
       await page.waitForTimeout(1000);
@@ -132,13 +129,11 @@ describe("US-05 - Finish an occupied table - E2E", () => {
         path: ".screenshots/us-05-dashboard-finish-button-cancel-after.png",
         fullPage: true,
       });
-
       const containsFree = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
         "free"
       );
-
       expect(containsFree).toBe(false);
     });
   });

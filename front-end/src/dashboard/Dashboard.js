@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useLocation, Link, useParams } from "react-router-dom";
-import { listReservations, listTables } from "../utils/api";
+import {  useLocation, Link } from "react-router-dom";
+import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { previous, next, today } from "../utils/date-time";
 import Reservations from "../reservations/Reservations";
@@ -13,20 +13,15 @@ import Tables from "../tables/Tables";
  * @returns {JSX.Element}
  */
 function Dashboard({ date, setDate }) {
-
-  console.log(date)
   const [reservations, setReservations] = useState([]);
-  const [tables, setTables] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-  
+
 
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }
   const dateQuery = useQuery()
   const { pathname, search } = useLocation();
-  console.log(search)
-  console.log(dateQuery.get("date"))
   
 
   /*loadDashboard() 
@@ -35,12 +30,8 @@ function Dashboard({ date, setDate }) {
   */
   function loadDashboard() {
     const abortController = new AbortController();
-    setReservationsError(null);
-    listTables(abortController.signal)
-    .then(setTables)
-    .catch(setReservationsError);
+    setReservationsError(null);    
     if (pathname === "/dashboard" && !search) {
-      console.log("this is what's not working")
       setDate(today()) 
       listReservations(today(), abortController.signal)
         .then(setReservations)
@@ -77,25 +68,28 @@ function Dashboard({ date, setDate }) {
 
   return (
     <main className="h-100">
-      <h1>Dashboard</h1>
-      <h2>{date}</h2>
+      <div className="text-center mt-3 pt-3">
+      <h1 className="display-1">Dashboard</h1>
+      
       <div className="d-md-flex-2 mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+        <h4 className="text-muted mb-0">Reservations for:</h4>
+      </div>
+      <h2 className="display-3">{date}</h2>
       </div>
       <ErrorAlert error={reservationsError} />
       <div
-        className="btn-group btn-group-lg d-flex justify-content-center py-5"
+        className="btn-group btn-group-lg d-flex justify-content-center py-5 mx-2"
         role="group"
         aria-label="..."
       >
-        <Link  className="btn btn-info" onClick={previousDayHandler} to={`/dashboard?date=${previous(date)}`}>
-          Previous Day
+        <Link  className="btn btn-info px-1" onClick={previousDayHandler} to={`/dashboard?date=${previous(date)}`}>
+          Previous
         </Link>
         <Link to={`/dashboard?date=${today()}`} className="btn btn-primary" onClick={todayHandler}>
           Today
         </Link>
         <Link to={`/dashboard?date=${next(date)}`} className="btn btn-info" onClick={nextDayHandler}>
-          Next Day
+          Next
         </Link>
       </div>
       <div className="row">
@@ -103,7 +97,7 @@ function Dashboard({ date, setDate }) {
           <Reservations reservations={reservations} date={date}/>
         </div>
         <div className="col-md-6">
-        <Tables tables={tables} />
+        <Tables date={date} />
         </div>
         
       </div>

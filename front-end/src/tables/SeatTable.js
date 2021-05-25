@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import {listTables, seatTable} from "../utils/api"
+import { listTables, seatTable } from "../utils/api"
 import { useParams, useHistory } from "react-router-dom"
+
 
 function SeatTable() {
     const { reservationId } = useParams();
@@ -20,6 +21,7 @@ function SeatTable() {
         let occupied = false;
         if (table.reservation_id != null) {
           occupied = true;
+          return null;
         }   
         if(occupied === false) {
         return (          
@@ -47,7 +49,7 @@ function SeatTable() {
 
              <form onSubmit={submitHandler}>
             <select name="table_id" className="custom-select custom-select-lg mb-3" onChange={handleChange} >
-            
+            <option value=""></option>
             {tablesMap}
             </select>
             <button type="submit" className="btn btn-primary">submit</button>

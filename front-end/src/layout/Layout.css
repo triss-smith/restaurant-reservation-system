@@ -16,7 +16,9 @@
 input {
   margin-left: 20px;
 }
-
+h1 {
+  font-size: 55px;
+}
 @media (max-width: 200px) {
   label{
     display: none;

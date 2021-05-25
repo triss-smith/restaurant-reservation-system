@@ -25,11 +25,18 @@ async function tableExists(req, res, next) {
       res.locals.table = table;
       return next();
     }
-    next({ status: 400, message: "table doesn't exist" });
+    next({ status: 404, message: `${req.params.tableId}` });
   } catch (error) {
     next({ status: 400, message: error });
   }
 }
+/*const tableisOccupied = (req,res,next) => {
+  const table = res.locals.table;
+  if(table.reservation) {
+    return next();
+  }
+  next({status:400, message:"Table not occupied"})
+}*/
 const isTableOccupied = (req, res, next) => {
   const table = res.locals.table;
   if (!table.reservation_id) {
@@ -37,6 +44,13 @@ const isTableOccupied = (req, res, next) => {
   }
   next({ status: 400, message: "table occupied" });
 };
+const isTableNotOccupied = (req,res,next) => {
+  const table = res.locals.table;
+  if(table.reservation_id){
+    return next();
+  }
+  next({status: 400, message: "Table not occupied"})
+}
 async function hasReservationId(req, res, next) {
  
   try {
@@ -48,7 +62,6 @@ async function hasReservationId(req, res, next) {
     );
     if (reservation) {
       res.locals.reservation = reservation;
-      console.log("hasReservationId");
       return next();
     }
 
@@ -62,7 +75,6 @@ const capacityCheck = (req, res, next) => {
   const reservation = res.locals.reservation;
 
   if (table.capacity >= reservation.people) {
-    console.log("capacityCheck")
     return next();
   }
   next({ status: 400, message: "capacity" });
@@ -102,7 +114,6 @@ async function update(req, res, next) {
     ...table,
     reservation_id: req.body.data.reservation_id,
   };
-  console.log("update");
   try {
     const response = await service.update(table.table_id, updatedTable);
     res.status(200).json({ data: response });
@@ -110,7 +121,18 @@ async function update(req, res, next) {
     next({ status: 400, message: error });
   }
 }
-
+async function finishTable(req,res,next) {
+  try{
+    const table = res.locals.table;
+    const finishedTable = {...table, reservation_id: null}
+    const response = await service.update(table.table_id,finishedTable);
+    console.log(response, "updated")
+    res.status(200).json({data:response});
+  } catch(error) {
+    console.log("failed", error)
+    next({status:400, message:error})
+  }
+}
 module.exports = {
   list: asyncErrorBoundary(list),
   update: [
@@ -121,5 +143,6 @@ module.exports = {
     capacityCheck,
     asyncErrorBoundary(update),
   ],
-  create: [hasData, hasCorrectData, create]
+  create: [hasData, hasCorrectData, asyncErrorBoundary(create)],
+  finishTable: [asyncErrorBoundary(tableExists), isTableNotOccupied, asyncErrorBoundary(finishTable)]
 };

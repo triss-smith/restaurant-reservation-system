@@ -24,7 +24,7 @@ function NewTable() {
       if(formData.capacity < 1) {
         return setErrors((errors) => [...errors, "Table must have a capacity of at least 1!"])
       }
-    if(formData.table_name === "" || formData.capacity == "") {
+    if(formData.table_name === "" || formData.capacity === "") {
         return setErrors((errors) => [...errors, "Must fill data!"])
       }
       console.log(formData)

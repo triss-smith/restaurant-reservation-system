@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"
+
 function Reservations({ reservations, date }) {
   const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -30,7 +30,7 @@ function Reservations({ reservations, date }) {
     );
   });
   console.log(selectedDate.getDay())
-  if(selectedDate.getDay() == 2) {
+  if(selectedDate.getDay() === 2) {
     return(
     <div className="container d-flex-2">
   <div className="row justify-content-center">

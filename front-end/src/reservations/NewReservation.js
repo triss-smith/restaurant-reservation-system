@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { postReservation } from "../utils/api";
 import { useHistory } from "react-router-dom";
 import ValidationError from "../layout/ValidationError";
-import moment from "moment";
 
 function NewReservation({ date, setDate }) {
   const [errors, setErrors] = useState([]);
@@ -29,7 +28,7 @@ function NewReservation({ date, setDate }) {
     if (errors) {
       setErrors([]);
     }
-    if (target.name == "people") {
+    if (target.name === "people") {
       return setFormData({ ...formData, [target.name]: Number(target.value) });
     }
     setFormData({ ...formData, [target.name]: target.value });
@@ -138,8 +137,8 @@ function NewReservation({ date, setDate }) {
             value={formData.mobile_number}
             onChange={handleChange}
             onBlur={() => {
-              if (formData.mobile_number != "") {
-                if (formData.mobile_number.length == 10) {
+              if (formData.mobile_number !== "") {
+                if (formData.mobile_number.length === 10) {
                   const formatted = `${formData.mobile_number.slice(
                     0,
                     3
