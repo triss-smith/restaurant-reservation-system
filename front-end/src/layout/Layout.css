@@ -1,3 +1,4 @@
+
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
@@ -19,8 +20,15 @@ input {
 h1 {
   font-size: 55px;
 }
-@media (max-width: 200px) {
+@media (max-width: 500px) {
   label{
     display: none;
+  }
+  
+}
+@media (min-width: 500px) {
+  body, html, #root, .container-fluid, .container-fluid > .row, .side-bar {
+    height:100%;
+    justify-content:start;
   }
 }

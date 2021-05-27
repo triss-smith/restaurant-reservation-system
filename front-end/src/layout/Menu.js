@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 
 function Menu() {
   return (
-    <nav className="navbar navbar-dark align-items-start m-0 h-100 d-inline-block">
-      <div className="container-fluid d-flex flex-column p-0 ">
+    <nav className="navbar navbar-dark justify-content-sm-center align-items-lg-start m-0 h-100 d-inline-block">
+      <div className="container-fluid d-flex flex-column p-1 justify-content-md-center justify-content-lg-start ">
         <Link
           className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
           to="/"

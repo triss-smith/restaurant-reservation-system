@@ -68,7 +68,7 @@ function Dashboard({ date, setDate }) {
 
   return (
     <main className="h-100">
-      <div className="text-center mt-3 pt-3">
+      <div className="text-center pt-3">
       <h1 className="display-1">Dashboard</h1>
       
       <div className="d-md-flex-2 mb-3">
@@ -97,7 +97,7 @@ function Dashboard({ date, setDate }) {
           <Reservations reservations={reservations} date={date}/>
         </div>
         <div className="col-md-6">
-        <Tables date={date} />
+        <Tables date={date} loadDashboard={loadDashboard}/>
         </div>
         
       </div>

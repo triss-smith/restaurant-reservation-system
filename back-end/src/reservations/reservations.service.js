@@ -11,6 +11,10 @@ function create(reservation) {
 function read(reservationId){
     return knex("reservations").select("*").where({reservation_id:reservationId}).first();
 }
+function update(reservationId, reservation) {
+    console.log(reservationId, reservation)
+    return knex("reservations").where({reservation_id: reservationId}).update(reservation).returning("status");
+}
 function serialize(reservation) {
     const { reservation_id, reservation_date, reservation_time, people } = reservation;
     return {
@@ -24,5 +28,6 @@ function serialize(reservation) {
 module.exports = {
     create,
     list,
-    read
+    read,
+    update,
 }

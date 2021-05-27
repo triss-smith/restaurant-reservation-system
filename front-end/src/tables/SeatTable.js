@@ -42,7 +42,9 @@ function SeatTable() {
             .then(() => {
                 console.log("seated");
                 history.push("/dashboard")})
+                .catch(console.log())
                 //history.push("/dashboard"))
+            
       }
     return (
         <div>

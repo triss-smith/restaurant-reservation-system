@@ -5,8 +5,8 @@ function Reservations({ reservations, date }) {
   "July", "August", "September", "October", "November", "December"
 ];
   const selectedDate = new Date(`${date}T00:00:00`);
-  const reservationsMap = reservations.map((element, index) => {
-    const reservationDateTime = new Date(`${element.reservation_date} ${element.reservation_time}`);
+  const reservationsMap = reservations.map((reservation, index) => {
+    const reservationDateTime = new Date(`${reservation.reservation_date} ${reservation.reservation_time}`);
     let hours = reservationDateTime.getHours();
     let minutes = (reservationDateTime.getMinutes() < 10) ? `0${reservationDateTime.getMinutes()}` : reservationDateTime.getMinutes();
     const amOrPm = hours >= 12 ? "pm" : "am"
@@ -18,13 +18,15 @@ function Reservations({ reservations, date }) {
         <div className="card m-2 pb-3 text-white bg-dark card-width align-self-center col-lg-5" key={index}>
           <div className="card-body">
             
-            <h5 className="card-title text-center">{element.first_name} {element.last_name}</h5>
-            <h6 className="card-subtitle mb-2 text-muted text-center">{element.mobile_number}</h6>
+            <h5 className="card-title text-center">{reservation.first_name} {reservation.last_name}</h5>
+            <h6 className="card-subtitle mb-2 text-muted text-center">{reservation.mobile_number}</h6>
             <p className="card-text text-center">{formattedTime}</p>
             <p className="card-text text-center">{formattedDate}</p>
-            <p className="card-text text-center">Party of {element.people}</p>
+            <p className="card-text text-center">Party of {reservation.people}</p>
+            <p className="card-text text-center" data-reservation-id-status={reservation.reservation_id}>{reservation.status}</p>
           </div>
-          <a className="btn btn-primary" href={`/reservations/${element.reservation_id}/seat`}>Seat</a>
+          {reservation.status == "booked" ?  (          <a className="btn btn-primary" href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a>
+) : null}
         </div>
       
     );

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { finishTable } from "../utils/api";
 import FinishTable from "./FinishTable";
 
-function Tables({ date }) {
+function Tables({ date, loadDashboard }) {
   const [tables, setTables] = useState([]);
   const history = useHistory
    function loadTables() {
@@ -39,7 +39,7 @@ function Tables({ date }) {
             </h4>
           </div>
           <div className="text-center w-100">
-            <FinishTable table={table} occupied={occupied} setTables={setTables} loadTables={loadTables}/>
+            <FinishTable table={table} occupied={occupied} setTables={setTables} loadTables={loadTables} loadDashboard={loadDashboard}/>
             
             
           </div>

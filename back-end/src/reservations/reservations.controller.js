@@ -41,7 +41,7 @@ const hasCorrectData = (req, res, next) => {
   ) {
     return next({ status: 400, message: "people" });
   }
-  console.log(data.people)
+  
   next();
 };
 const dateIsNotInPast = (req, res, next) => {
@@ -77,9 +77,47 @@ const timeIsValid = (req, res, next) => {
     }
     next();
 };
+const statusIsOkayForPost = (req,res,next) => {
+  const reservation = req.body.data;
+  if(reservation.status == "seated") {
+    return next({status:400, message:"seated"})
+  }
+  if(reservation.status == "finished") {
+    return next({status:400, message:"finished"})
+  }
+  res.locals.reservation = reservation;
+  next();
+}
+async function  reservationExists(req,res,next) {
+  const reservation = await service.read(req.params.reservation_id)
+  if(!reservation) {
+     return next({status:404, message:req.params.reservation_id})
+
+    
+    
+  }
+  res.locals.reservation = reservation;
+    res.locals.status = req.body.data.status;
+  console.log("passed")
+  next();
+}
+async function isNotUnknownOrFinishedForPut(req,res,next) {
+  const reservation = res.locals.reservation
+  const status = res.locals.status;
+  console.log("isNotUnknownForPut", reservation)
+  if(status === "unknown") {
+    return next({status:400,message:"unknown"})
+  }
+  if(reservation.status == "finished") {
+    return next({status:400, message: "finished"})
+  }
+  
+  next();
+}
 async function list(req, res) {
   const response = await service.list(req.query.date);
-  const sortedReservation = response.sort((a, b) =>
+  const filteredReservations = response.filter(element => element.status != "finished")
+  const sortedReservation = filteredReservations.sort((a, b) =>
     a.reservation_time < b.reservation_time
       ? -1
       : a.reservation_time > b.reservation_time
@@ -87,7 +125,7 @@ async function list(req, res) {
       : 0
   );
   res.json({
-    data: response,
+    data: sortedReservation,
   });
 }
 async function create(req, res, next) {
@@ -95,7 +133,6 @@ async function create(req, res, next) {
     const response = await service.create(req.body.data);
     res.status(201).json({ data: response });
   } catch (error) {
-    console.log(error);
     next({ status: 400, message: { error } });
   }
 }
@@ -110,6 +147,20 @@ async function read(req,res,next) {
     next({status:400, message: error})
   }
 }
+async function update(req,res,next) {
+  
+}
+
+async function statusUpdate(req,res,next) {
+  const reservation = res.locals.reservation;
+  const newStatus = res.locals.status;
+  const updatedReservation = {...reservation, status: newStatus}
+  //console.log(newStatus, updatedReservation);
+  console.log("statusUpdate")
+  const response = await service.update(updatedReservation.reservation_id, updatedReservation)
+  console.log(response)
+  res.status(200).json({data: {status: response[0]}})
+}
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -118,7 +169,9 @@ module.exports = {
     dateIsNotInPast,
     dateisDateOpen,
     timeIsValid,
+    statusIsOkayForPost,
     asyncErrorBoundary(create),
   ],
-  read
+  read,
+  updateStatus: [reservationExists, isNotUnknownOrFinishedForPut, asyncErrorBoundary(statusUpdate)]
 };
