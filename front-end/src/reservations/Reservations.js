@@ -37,9 +37,15 @@ const selectedDate = new Date(`${date}T00:00:00`);
     return(
     <div className="container d-flex-2">
   <div className="row justify-content-center">
-    <h2>Closed on Tuesdays</h2>
+    <h2 className="display-2 text-center">Closed on Tuesdays</h2>
     </div>
     </div>
+    )
+  }
+
+  if(reservations.length === 0) {
+    return (
+      <h2 className="display-2 text-center">No reservations found</h2>
     )
   }
   return (

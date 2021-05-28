@@ -25,7 +25,7 @@ function MobileNumberSearch({date}) {
     <div className="d-flex-1">
       <div className="row">
         <form onSubmit={handleSubmit}>
-          <div className="input-group my-3">
+          <div className="input-group py-3">
             <input
               type="search"
               name="mobile_number"
@@ -42,8 +42,8 @@ function MobileNumberSearch({date}) {
           </div>
         </form>
       </div>
-      {reservations == [] ? null : (      <Reservations reservations={reservations} date={date}/>
-)}
+     <Reservations reservations={reservations} date={date} />
+
     </div>
   );
 }

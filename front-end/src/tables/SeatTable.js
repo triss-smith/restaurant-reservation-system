@@ -47,7 +47,7 @@ function SeatTable() {
             
       }
     return (
-        <div>
+        <div className="py-3">
 
              <form onSubmit={submitHandler}>
             <select name="table_id" className="custom-select custom-select-lg mb-3" onChange={handleChange} >
