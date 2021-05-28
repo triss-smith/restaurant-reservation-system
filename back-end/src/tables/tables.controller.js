@@ -1,6 +1,8 @@
 const service = require("./tables.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+
+
 const hasData = (req, res, next) => {
   const data = req.body.data;
   if (data) {

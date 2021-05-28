@@ -86,6 +86,7 @@ export async function deleteReservation(reservationId) {
 export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`)
   return await fetchJson(url, {headers, signal}, [])
+   
 }
 
 export async function postTables(data) {
@@ -119,4 +120,11 @@ export async function finishTable(table_id, reservationId) {
   }
   const response = await fetchJson(url, options, {});
   return response;
+}
+
+export async function mobileSearch(mobileNumber) {
+  const url = new URL(`${API_BASE_URL}/reservations?mobile_number=${mobileNumber}`)
+  return await fetchJson(url, {headers}, [])
+  .then(formatReservationDate)
+    .then(formatReservationTime);
 }

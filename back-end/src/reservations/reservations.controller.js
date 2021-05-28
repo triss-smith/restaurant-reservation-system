@@ -115,7 +115,24 @@ async function isNotUnknownOrFinishedForPut(req,res,next) {
   next();
 }
 async function list(req, res) {
-  const response = await service.list(req.query.date);
+if(req.query.mobile_number != null) {
+    const response = await service.search(req.query.mobile_number);
+    const filteredReservations = response.filter(element => element.status != "finished")
+  const sortedReservation = filteredReservations.sort((a, b) =>
+    a.reservation_time < b.reservation_time
+      ? -1
+      : a.reservation_time > b.reservation_time
+      ? 1
+      : 0
+  );
+  console.log( req.query.mobile_number)
+  res.json({
+    data: sortedReservation,
+  });
+  }
+  if(!req.query.mobile_number){
+    const response = await service.list(req.query.date);
+
   const filteredReservations = response.filter(element => element.status != "finished")
   const sortedReservation = filteredReservations.sort((a, b) =>
     a.reservation_time < b.reservation_time
@@ -124,9 +141,12 @@ async function list(req, res) {
       ? 1
       : 0
   );
+  console.log(sortedReservation)
   res.json({
     data: sortedReservation,
   });
+}
+  
 }
 async function create(req, res, next) {
   try {

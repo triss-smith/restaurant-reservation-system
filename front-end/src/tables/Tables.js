@@ -24,7 +24,7 @@ function Tables({ date, loadDashboard }) {
       return (
         <div
           key={index}
-          className={`card m-1 pb-3 text-white ${
+          className={`card p-1 text-white ${
             occupied ? " bg-dark" : "bg-success"
           }  card-width align-self-center col-lg-5`}
         >
@@ -50,9 +50,7 @@ function Tables({ date, loadDashboard }) {
   
   
   return (
-    <div className="container d-flex-2">
       <div className="row justify-content-center">{tablesMap}</div>
-    </div>
   );
 }
 

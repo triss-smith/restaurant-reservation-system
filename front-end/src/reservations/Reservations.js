@@ -4,15 +4,16 @@ function Reservations({ reservations, date }) {
   const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
-  const selectedDate = new Date(`${date}T00:00:00`);
+const selectedDate = new Date(`${date}T00:00:00`);
   const reservationsMap = reservations.map((reservation, index) => {
-    const reservationDateTime = new Date(`${reservation.reservation_date} ${reservation.reservation_time}`);
+    const reservationDateTime = new Date(`${reservation.reservation_date}T${reservation.reservation_time}`);
     let hours = reservationDateTime.getHours();
     let minutes = (reservationDateTime.getMinutes() < 10) ? `0${reservationDateTime.getMinutes()}` : reservationDateTime.getMinutes();
     const amOrPm = hours >= 12 ? "pm" : "am"
     hours = (hours % 12) || 12;
     const formattedTime = `${hours}:${minutes} ${amOrPm}`
     const formattedDate = `${monthNames[reservationDateTime.getMonth()]} ${reservationDateTime.getDate()}, ${reservationDateTime.getFullYear()}`
+    console.log(hours);
     return (
       
         <div className="card m-2 pb-3 text-white bg-dark card-width align-self-center col-lg-5" key={index}>
