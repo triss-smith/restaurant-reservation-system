@@ -22,11 +22,12 @@ function Tables({ date, loadDashboard }) {
       
   
       return (
+        <div className="p-1 justify-content-center col-lg-5">
         <div
           key={index}
-          className={`card p-1 text-white ${
+          className={`card  text-white ${
             occupied ? " bg-dark" : "bg-success"
-          }  card-width align-self-center col-lg-5`}
+          }  align-self-center `}
         >
           <div className="card-body">
             <h5 className="card-title text-center">{table.table_name}</h5>
@@ -43,6 +44,7 @@ function Tables({ date, loadDashboard }) {
             
             
           </div>
+        </div>
         </div>
       );
     });

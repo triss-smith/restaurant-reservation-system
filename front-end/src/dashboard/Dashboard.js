@@ -93,10 +93,10 @@ function Dashboard({ date, setDate }) {
         </Link>
       </div>
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-lg-6 reservations_box">
           <Reservations reservations={reservations} date={date}/>
         </div>
-        <div className="col-md-6">
+        <div className="col-lg-6">
         <Tables date={date} loadDashboard={loadDashboard}/>
         </div>
         

@@ -16,10 +16,10 @@ function Layout() {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-2 side-bar ">
+        <div className="col-md-2 side-bar h-100 h-auto">
           <Menu />
         </div>
-        <div className="col">
+        <div className="col-md">
           <Routes />
         </div>
       </div>

@@ -1,7 +1,10 @@
-
+* { 
+  box-sizing: border-box;
+}
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
+  
 }
 
 .formStyle {
@@ -12,7 +15,7 @@
   justify-content: center;
 }
 .card-width{
-  width: 20rem;
+  min-width: 20rem;
 }
 input {
   margin-left: 20px;
@@ -20,15 +23,21 @@ input {
 h1 {
   font-size: 55px;
 }
+
 @media (max-width: 500px) {
   label{
     display: none;
   }
-  
+  body, html, #root, .container-fluid, .container-fluid > .row, .side-bar {
+    text-align: center;
+  }
+
 }
 @media (min-width: 500px) {
   body, html, #root, .container-fluid, .container-fluid > .row, .side-bar {
+    min-height:100%;
     height:100%;
     justify-content:start;
+
   }
 }
