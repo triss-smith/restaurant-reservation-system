@@ -37,7 +37,7 @@ function NewTable() {
   }
   return (
     <div className="d-flex-1">
-      <h2>New Table</h2>
+      <h1 className="display-1">New Table</h1>
       <ValidationError errors={errors} setErrors={setErrors}/>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

@@ -23,6 +23,7 @@ function MobileNumberSearch({date}) {
 
   return (
     <div className="d-flex-1">
+      <h1 className="display-1">Search by Mobile Number</h1>
       <div className="row">
         <form onSubmit={handleSubmit}>
           <div className="input-group py-3">

@@ -85,22 +85,23 @@ describe("US-08 - Change an existing reservation - E2E", () => {
             `Cancel button for reservation_id ${reservation.reservation_id} was not found.`
           );
         }
-
+        console.log("cancel button found")
         page.on("dialog", async (dialog) => {
           expect(dialog.message()).toContain(
             "Do you want to cancel this reservation?"
           );
           await dialog.accept();
         });
-
+        
         await cancelButton.click();
-
+        console.log("cancel button click")
         await page.waitForResponse((response) => {
+
           return response.url().includes("/reservations?date=");
         });
-
+        console.log("clicked")
         await page.waitForTimeout(500);
-
+        
         expect(await page.$(cancelButtonSelector)).toBeNull();
       });
       test("then clicking cancel makes no changes", async () => {

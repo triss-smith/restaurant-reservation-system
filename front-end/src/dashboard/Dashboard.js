@@ -46,7 +46,7 @@ function Dashboard({ date, setDate }) {
     }
     return () => abortController.abort();
   }
-  
+  console.log(date)
   useEffect(loadDashboard, [date]);
 
   /*nextDayHandler, todayHandler, previousDayHandler
@@ -68,8 +68,9 @@ function Dashboard({ date, setDate }) {
 
   return (
     <main className="h-100">
+            <h1 className="display-1">Dashboard</h1>
+
       <div className="text-center pt-3">
-      <h1 className="display-1">Dashboard</h1>
       
       <div className="d-md-flex-2 mb-3">
         <h4 className="text-muted mb-0">Reservations for:</h4>
@@ -94,7 +95,7 @@ function Dashboard({ date, setDate }) {
       </div>
       <div className="row">
         <div className="col-lg-6 reservations_box">
-          <Reservations reservations={reservations} date={date}/>
+          <Reservations reservations={reservations} date={date} loadDashboard={loadDashboard}/>
         </div>
         <div className="col-lg-6">
         <Tables date={date} loadDashboard={loadDashboard}/>

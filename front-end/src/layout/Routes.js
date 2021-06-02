@@ -8,6 +8,7 @@ import NewReservation from "../reservations/NewReservation"
 import NewTable from "../tables/NewTable"
 import SeatTable from "../tables/SeatTable"
 import MobileNumberSearch from "../reservations/MobileNumberSearch";
+import EditReservation from "../reservations/EditReservation";
 
 
 /**
@@ -28,11 +29,14 @@ function Routes() {
       <Route path="/search">
       <MobileNumberSearch date={date}/>
       </Route>
+      <Route path="/reservations/:reservation_id/edit">
+        <EditReservation />
+      </Route>
       <Route path="/reservations/:reservationId/seat">
         <SeatTable />
       </Route>
       <Route exact={true} path="/reservations">
-        <Redirect to={"/dashboard"} />
+      <Dashboard date={date} setDate={setDate} />
       </Route>
       <Route path="/reservations/new">
         <NewReservation date={date} setDate={setDate}/>

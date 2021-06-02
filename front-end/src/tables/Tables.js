@@ -52,7 +52,7 @@ function Tables({ date, loadDashboard }) {
   
   
   return (
-      <div className="row justify-content-center">{tablesMap}</div>
+      <div className="row mx-2 justify-content-center">{tablesMap}</div>
   );
 }
 

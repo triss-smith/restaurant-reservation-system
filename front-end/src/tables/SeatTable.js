@@ -48,7 +48,7 @@ function SeatTable() {
       }
     return (
         <div className="py-3">
-
+            <h1 className="display-1">Seat Reservation</h1>
              <form onSubmit={submitHandler}>
             <select name="table_id" className="custom-select custom-select-lg mb-3" onChange={handleChange} >
             <option value=""></option>
