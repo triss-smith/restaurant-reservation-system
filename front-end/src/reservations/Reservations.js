@@ -73,7 +73,7 @@ function Reservations({ reservations, date, loadDashboard }) {
           </div>
           <div className="col-lg-6 justify-content-center">
             <div className="btn-group-vertical w-100 h-100 p-2">
-              {reservation.status == "booked" ? (
+              {reservation.status === "booked" ? (
                 <a
                   className="btn btn-primary m-2 justify-content-center text-center"
                   href={`/reservations/${reservation.reservation_id}/seat`}
@@ -82,7 +82,7 @@ function Reservations({ reservations, date, loadDashboard }) {
                 </a>
               ) : null}
               <a className="btn btn-info  m-2" href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a>
-              <a className="btn btn-danger m-2" onClick={() => cancelReservation(reservation.reservation_id, "cancelled")} data-reservation-id-cancel={reservation.reservation_id}>Cancel</a>
+              <button className="btn btn-danger m-2" onClick={() => cancelReservation(reservation.reservation_id, "cancelled")} data-reservation-id-cancel={reservation.reservation_id}>Cancel</button>
             </div>
           </div>
         </div>
@@ -91,18 +91,18 @@ function Reservations({ reservations, date, loadDashboard }) {
   });
   console.log(selectedDate.getDay());
   console.log()
-  if (selectedDate.getDay() === 2 && pathname != "/search") {
+  if (selectedDate.getDay() === 2 && pathname !== "/search") {
     return (
       <div className="container d-flex-2">
         <div className="row justify-content-center">
-          <h2 className="display-2 text-center">Closed on Tuesdays</h2>
+          <h2 className="display-4 text-center">Closed on Tuesdays</h2>
         </div>
       </div>
     );
   }
 
   if (reservations.length === 0) {
-    return <h2 className="display-2 text-center">No reservations found</h2>;
+    return <h2 className="display-4 text-center">No reservations found</h2>;
   }
   return (
     <div className="container d-flex-2">

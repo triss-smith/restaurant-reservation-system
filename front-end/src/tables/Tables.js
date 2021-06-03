@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { listTables } from "../utils/api";
-import { useHistory } from "react-router-dom";
-import { finishTable } from "../utils/api";
 import FinishTable from "./FinishTable";
 
 function Tables({ date, loadDashboard }) {
   const [tables, setTables] = useState([]);
-  const history = useHistory
    function loadTables() {
     const abortController = new AbortController();
     listTables(abortController.signal).then(setTables);
@@ -22,7 +19,7 @@ function Tables({ date, loadDashboard }) {
       
   
       return (
-        <div className="p-1 justify-content-center col-lg-5">
+        <div className="p-1 justify-content-center col-lg-5" key={index}>
         <div
           key={index}
           className={`card  text-white ${

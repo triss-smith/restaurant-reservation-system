@@ -16,18 +16,16 @@ function EditReservation() {
     reservation_time: "",
     people: 0,
     });
-            const {reservation_id} = useParams();
+    const {reservation_id} = useParams();
 
 
-    async function loadReservation() {
+    function loadReservation() {
         const abortController = new AbortController();
-        await readReservation(reservation_id, abortController.signal)
+        readReservation(reservation_id, abortController.signal)
         .then(setFormData)
         //.then(setFormData);
     }
-    useEffect(() => {        
-        loadReservation()
-    },[])
+    useEffect(loadReservation,[reservation_id])
     
     console.log(formData)
 
@@ -113,7 +111,7 @@ function EditReservation() {
       return (
         <div className="d-flex-1">
           <ValidationError errors={errors} setErrors={setErrors} />
-          <h1 className="display-1">Edit Reservation</h1>
+          <h1 className="display-4 text-center">Edit Reservation</h1>
           <form onSubmit={handleSubmit} className="py-4" autoComplete="off">
             <div className="form-group">
               <label htmlFor="first_name">First Name:</label>

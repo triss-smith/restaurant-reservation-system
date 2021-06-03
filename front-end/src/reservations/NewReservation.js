@@ -105,7 +105,7 @@ function NewReservation({ date, setDate }) {
   return (
     <div className="d-flex-1">
       <ValidationError errors={errors} setErrors={setErrors} />
-      <h1 className="display-1">Create Reservation</h1>
+      <h1 className="display-4 text-center">Create Reservation</h1>
       <form onSubmit={handleSubmit} className="py-4" autoComplete="off">
         <div className="form-group">
           <label htmlFor="first_name">First Name:</label>

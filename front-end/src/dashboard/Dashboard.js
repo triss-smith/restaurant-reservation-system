@@ -68,14 +68,13 @@ function Dashboard({ date, setDate }) {
 
   return (
     <main className="h-100">
-            <h1 className="display-1">Dashboard</h1>
+            <div className="text-center pt-3">
+        <h1 className="display-4">Dashboard</h1>
 
-      <div className="text-center pt-3">
-      
-      <div className="d-md-flex-2 mb-3">
-        <h4 className="text-muted mb-0">Reservations for:</h4>
-      </div>
-      <h2 className="display-3">{date}</h2>
+        <div className="d-md-flex-2 mb-3">
+          <h4 className="text-muted mb-0">Reservations for:</h4>
+        </div>
+        <h2 className="display-4">{date}</h2>
       </div>
       <ErrorAlert error={reservationsError} />
       <div

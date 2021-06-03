@@ -1,10 +1,8 @@
 import React from "react";
 import { finishTable } from "../utils/api";
-import { useHistory } from "react-router-dom";
 
 function FinishTable({ table, occupied, loadTables, loadDashboard }) {
 
-  const history = useHistory();
   function freeTable() {
       const confirm = window.confirm("Is this table ready to seat new guests?")
       if(confirm) {
