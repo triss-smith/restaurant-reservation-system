@@ -1,8 +1,6 @@
 const service = require("./tables.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-
-
 const hasData = (req, res, next) => {
   const data = req.body.data;
   if (data) {
@@ -88,13 +86,13 @@ const capacityCheck = (req, res, next) => {
   }
   next({ status: 400, message: "capacity" });
 };
-const reservationStatusCheck = (req,res,next) => {
+const reservationStatusCheck = (req, res, next) => {
   const reservation = res.locals.reservation;
-  if(reservation.status == "seated") {
-    return next({status:400, message:"seated"})
+  if (reservation.status == "seated") {
+    return next({ status: 400, message: "seated" });
   }
   next();
-}
+};
 
 async function list(req, res, next) {
   try {
@@ -131,10 +129,13 @@ async function updateSeating(req, res, next) {
     ...table,
     reservation_id: req.body.data.reservation_id,
   };
-  const seatedReservation = {...reservation, status: "seated"}
+  const seatedReservation = { ...reservation, status: "seated" };
   try {
     const response = await service.update(table.table_id, updatedTable);
-    const reservationResponse = await service.updateReservation(reservation.reservation_id, seatedReservation);
+    const reservationResponse = await service.updateReservation(
+      reservation.reservation_id,
+      seatedReservation
+    );
     res.status(200).json({ data: response });
   } catch (error) {
     next({ status: 400, message: error });
@@ -144,9 +145,12 @@ async function finishTable(req, res, next) {
   try {
     const table = res.locals.table;
     const reservation = await service.getReservation(table.reservation_id);
-    const finishedReservation = {...reservation, status: "finished"}
+    const finishedReservation = { ...reservation, status: "finished" };
     const finishedTable = { ...table, reservation_id: null };
-    const reservationResponse = await service.updateReservation(reservation.reservation_id, finishedReservation);
+    const reservationResponse = await service.updateReservation(
+      reservation.reservation_id,
+      finishedReservation
+    );
     const response = await service.update(table.table_id, finishedTable);
     res.status(200).json({ data: response });
   } catch (error) {

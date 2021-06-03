@@ -35,14 +35,10 @@ const hasCorrectData = (req, res, next) => {
   if (!data.reservation_time || time == false) {
     return next({ status: 400, message: "reservation_time" });
   }
-  if (
-    !data.people ||
-    data.people == 0 ||
-    typeof data.people != "number"
-  ) {
+  if (!data.people || data.people == 0 || typeof data.people != "number") {
     return next({ status: 400, message: "people" });
   }
-  
+
   next();
 };
 const dateIsNotInPast = (req, res, next) => {
@@ -63,87 +59,86 @@ const dateisDateOpen = (req, res, next) => {
 };
 const timeIsValid = (req, res, next) => {
   const openingTime = 1030;
-    const closingTime = 2130;
-    const reqDate = new Date(
-      `${req.body.data.reservation_date} ${req.body.data.reservation_time}`
-    );
+  const closingTime = 2130;
+  const reqDate = new Date(
+    `${req.body.data.reservation_date} ${req.body.data.reservation_time}`
+  );
 
-    const reqDateAddable = reqDate.getHours() * 100 + reqDate.getMinutes();
-    if (reqDateAddable < openingTime) {
-      return next({status:400, message:"before opening time"})
-      
-    }
-    if (reqDateAddable > closingTime) {
-      return next({status:400, message:"after reservation cutoff"})
-    }
-    next();
+  const reqDateAddable = reqDate.getHours() * 100 + reqDate.getMinutes();
+  if (reqDateAddable < openingTime) {
+    return next({ status: 400, message: "before opening time" });
+  }
+  if (reqDateAddable > closingTime) {
+    return next({ status: 400, message: "after reservation cutoff" });
+  }
+  next();
 };
-const statusIsOkayForPost = (req,res,next) => {
+const statusIsOkayForPost = (req, res, next) => {
   const reservation = req.body.data;
-  if(reservation.status == "seated") {
-    return next({status:400, message:"seated"})
+  if (reservation.status == "seated") {
+    return next({ status: 400, message: "seated" });
   }
-  if(reservation.status == "finished") {
-    return next({status:400, message:"finished"})
+  if (reservation.status == "finished") {
+    return next({ status: 400, message: "finished" });
   }
   res.locals.reservation = reservation;
   next();
-}
-async function  reservationExists(req,res,next) {
-  const reservation = await service.read(req.params.reservation_id)
-  if(!reservation) {
-     return next({status:404, message:req.params.reservation_id})
-
-    
-    
+};
+async function reservationExists(req, res, next) {
+  const reservation = await service.read(req.params.reservation_id);
+  if (!reservation) {
+    return next({ status: 404, message: req.params.reservation_id });
   }
   res.locals.reservation = reservation;
-    res.locals.status = req.body.data.status;
+  res.locals.status = req.body.data.status;
   next();
 }
-async function isNotUnknownOrFinishedForPut(req,res,next) {
-  const reservation = res.locals.reservation
+async function isNotUnknownOrFinishedForPut(req, res, next) {
+  const reservation = res.locals.reservation;
   const status = res.locals.status;
-  if(status === "unknown") {
-    return next({status:400,message:"unknown"})
+  if (status === "unknown") {
+    return next({ status: 400, message: "unknown" });
   }
-  if(reservation.status == "finished") {
-    return next({status:400, message: "finished"})
+  if (reservation.status == "finished") {
+    return next({ status: 400, message: "finished" });
   }
-  
+
   next();
 }
 async function list(req, res) {
-if(req.query.mobile_number != null) {
+  if (req.query.mobile_number != null) {
     const response = await service.search(req.query.mobile_number);
-    const filteredReservations = response.filter(element => (element.status != "finished" && element.status != "cancelled"))
-  const sortedReservation = filteredReservations.sort((a, b) =>
-    a.reservation_time < b.reservation_time
-      ? -1
-      : a.reservation_time > b.reservation_time
-      ? 1
-      : 0
-  );
-  res.json({
-    data: sortedReservation,
-  });
+    const filteredReservations = response.filter(
+      (element) => element.status != "finished" && element.status != "cancelled"
+    );
+    const sortedReservation = filteredReservations.sort((a, b) =>
+      a.reservation_time < b.reservation_time
+        ? -1
+        : a.reservation_time > b.reservation_time
+        ? 1
+        : 0
+    );
+    res.json({
+      data: sortedReservation,
+    });
   }
-  if(!req.query.mobile_number){
+  if (!req.query.mobile_number) {
     const response = await service.list(req.query.date);
 
-  const filteredReservations = response.filter(element => element.status != "finished" && element.status != "cancelled")
-  const sortedReservation = filteredReservations.sort((a, b) =>
-    a.reservation_time < b.reservation_time
-      ? -1
-      : a.reservation_time > b.reservation_time
-      ? 1
-      : 0
-  );
-  res.json({
-    data: sortedReservation,
-  });
-}
-  
+    const filteredReservations = response.filter(
+      (element) => element.status != "finished" && element.status != "cancelled"
+    );
+    const sortedReservation = filteredReservations.sort((a, b) =>
+      a.reservation_time < b.reservation_time
+        ? -1
+        : a.reservation_time > b.reservation_time
+        ? 1
+        : 0
+    );
+    res.json({
+      data: sortedReservation,
+    });
+  }
 }
 async function create(req, res, next) {
   try {
@@ -153,37 +148,44 @@ async function create(req, res, next) {
     next({ status: 400, message: { error } });
   }
 }
-async function read(req,res,next) {
+async function read(req, res, next) {
   try {
     const response = await service.read(req.params.reservation_id);
-    if(!response) {
-      next({status:404, message:`Id not found: ${req.params.reservation_id}`})
+    if (!response) {
+      next({
+        status: 404,
+        message: `Id not found: ${req.params.reservation_id}`,
+      });
     }
-    res.status(200).json({data:response});
-  } catch(error) {
-    next({status:400, message: error})
+    res.status(200).json({ data: response });
+  } catch (error) {
+    next({ status: 400, message: error });
   }
 }
 
-
-async function statusUpdate(req,res,next) {
+async function statusUpdate(req, res, next) {
   const reservation = res.locals.reservation;
   const newStatus = res.locals.status;
-  const updatedReservation = {...reservation, status: newStatus}
+  const updatedReservation = { ...reservation, status: newStatus };
   //console.log(newStatus, updatedReservation);
-  
-  const response = await service.updateStatus(updatedReservation.reservation_id, updatedReservation)
+
+  const response = await service.updateStatus(
+    updatedReservation.reservation_id,
+    updatedReservation
+  );
   console.log(response);
-  res.status(200).json({data: {status: response[0]}})
+  res.status(200).json({ data: { status: response[0] } });
 }
 
-async function update(req,res,next) {
+async function update(req, res, next) {
   const reservation = res.locals.reservation;
   const updatedReservation = req.body.data;
-  
-    const response = await service.update(updatedReservation.reservation_id, updatedReservation);
-    res.status(200).json({data: response[0]})
 
+  const response = await service.update(
+    updatedReservation.reservation_id,
+    updatedReservation
+  );
+  res.status(200).json({ data: response[0] });
 }
 module.exports = {
   list: asyncErrorBoundary(list),
@@ -197,14 +199,19 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read,
-  updateStatus: [reservationExists, isNotUnknownOrFinishedForPut, asyncErrorBoundary(statusUpdate)],
+  updateStatus: [
+    reservationExists,
+    isNotUnknownOrFinishedForPut,
+    asyncErrorBoundary(statusUpdate),
+  ],
   update: [
-    reservationExists, 
+    reservationExists,
     hasData,
     hasCorrectData,
     dateIsNotInPast,
     dateisDateOpen,
     timeIsValid,
     statusIsOkayForPost,
-    asyncErrorBoundary(update)]
+    asyncErrorBoundary(update),
+  ],
 };
