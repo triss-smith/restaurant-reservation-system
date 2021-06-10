@@ -14,7 +14,7 @@ function FinishTable({ table, occupied, loadTables, loadDashboard }) {
     
       
           <button
-              className={`btn btn-danger w-100 align-self-center ${
+              className={`btn-outline-danger w-75 align-self-center p-2 m-1 ${
                 occupied ? "" : "invisible"
               }`}
               data-table-id-finish={table.table_id}            

@@ -15,7 +15,7 @@ function NewReservation({ date, setDate }) {
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
-    people: 0,
+    people: 1,
   };
   const [formData, setFormData] = useState({
     ...defaultForm,
@@ -46,7 +46,6 @@ function NewReservation({ date, setDate }) {
   function dateInPast(firstDate, today) {
     const formDate = new Date(firstDate);
     if (formDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
-      console.log(formDate.setHours(0, 0, 0, 0) - today.setHours(0, 0, 0, 0));
       return true;
     }
 
@@ -75,7 +74,6 @@ function NewReservation({ date, setDate }) {
     );
 
     const formDate = formDateGet.getHours() * 100 + formDateGet.getMinutes();
-    console.log(formDate);
     if (formDate < openingTime) {
       return setErrors((errors) => [...errors, "Error: Before opening time!!"]);
     }
@@ -94,7 +92,6 @@ function NewReservation({ date, setDate }) {
     if (formDataDate.getDay() === 2) {
       return setErrors((errors) => [...errors, "Date is on Tuesday"]);
     }
-    console.log(formData);
     await postReservation(formData).then(() =>{
       //setDate(formData.reservation_date);
 
@@ -103,9 +100,9 @@ function NewReservation({ date, setDate }) {
   }
 
   return (
-    <div className="d-flex-1">
+    <div className="d-flex-1  pt-3">
       <ValidationError errors={errors} setErrors={setErrors} />
-      <h1 className="display-4 text-center">Create Reservation</h1>
+      <h1 className="display-4 text-center py-1">Create Reservation</h1>
       <form onSubmit={handleSubmit} className="py-4" autoComplete="off">
         <div className="form-group">
           <label htmlFor="first_name">First Name:</label>
@@ -116,6 +113,7 @@ function NewReservation({ date, setDate }) {
             onChange={handleChange}
             required={true}
             className="form-control"
+            placeholder="First Name"
           />
         </div>
         <div className="form-group">
@@ -126,6 +124,7 @@ function NewReservation({ date, setDate }) {
             onChange={handleChange}
             required={true}
             className="form-control"
+            placeholder="Last Name"
           />
         </div>
 
@@ -147,7 +146,6 @@ function NewReservation({ date, setDate }) {
                     6
                   )}-${formData.mobile_number.slice(6)}`;
                   setFormData({ ...formData, mobile_number: formatted });
-                  console.log(formatted);
                 }
               }
             }}
@@ -189,19 +187,18 @@ function NewReservation({ date, setDate }) {
             name="people"
             value={formData.people}
             type="number"
-            min="1"
+            
             onChange={handleChange}
-            default="1"
             required={true}
           />
         </div>
         <div
-          className="btn-group btn-group-lg d-flex justify-content-center py-5"
+          className="btn-group btn-group-lg d-flex justify-content-center py-2"
           role="group"
           aria-label="..."
         >
           <button className="btn btn-primary mx-2 w-50" type="submit">
-            Submit Here!
+            Submit
           </button>
           <button className="btn btn-danger mx-2 w-50" onClick={cancelRedirect}>
             Cancel

@@ -16,21 +16,21 @@ function EditReservation() {
     reservation_time: "",
     people: 0,
     });
-    const {reservation_id} = useParams();
+            const {reservation_id} = useParams();
 
 
-    function loadReservation() {
+    async function loadReservation() {
         const abortController = new AbortController();
-        readReservation(reservation_id, abortController.signal)
+        await readReservation(reservation_id, abortController.signal)
         .then(setFormData)
         //.then(setFormData);
     }
-    useEffect(loadReservation,[reservation_id])
+    useEffect(() => {        
+        loadReservation()
+    },[])
     
-    console.log(formData)
 
     const handleChange = ({ target }) => {
-        console.log(formData)
         if (errors) {
           setErrors([]);
         }
@@ -52,7 +52,6 @@ function EditReservation() {
       function dateInPast(firstDate, today) {
         const formDate = new Date(firstDate);
         if (formDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
-          console.log(formDate.setHours(0, 0, 0, 0) - today.setHours(0, 0, 0, 0));
           return true;
         }
     
@@ -81,7 +80,6 @@ function EditReservation() {
         );
     
         const formDate = formDateGet.getHours() * 100 + formDateGet.getMinutes();
-        console.log(formDate);
         if (formDate < openingTime) {
           return setErrors((errors) => [...errors, "Error: Before opening time!!"]);
         }
@@ -100,18 +98,16 @@ function EditReservation() {
         if (formDataDate.getDay() === 2) {
           return setErrors((errors) => [...errors, "Date is on Tuesday"]);
         }
-        console.log(formData);
         await editReservation(formData.reservation_id, formData).then(() =>{
           //setDate(formData.reservation_date);
-            console.log("edited");
           history.push(`/dashboard?date=${formData.reservation_date}`)
         });
       }
     
       return (
-        <div className="d-flex-1">
+        <div className="d-flex-1  pt-3">
           <ValidationError errors={errors} setErrors={setErrors} />
-          <h1 className="display-4 text-center">Edit Reservation</h1>
+          <h1 className="display-4 text-center ">Edit Reservation</h1>
           <form onSubmit={handleSubmit} className="py-4" autoComplete="off">
             <div className="form-group">
               <label htmlFor="first_name">First Name:</label>
@@ -122,6 +118,7 @@ function EditReservation() {
                 onChange={handleChange}
                 required={true}
                 className="form-control"
+                placeholder="First Name"
               />
             </div>
             <div className="form-group">
@@ -132,6 +129,7 @@ function EditReservation() {
                 onChange={handleChange}
                 required={true}
                 className="form-control"
+                placeholder="Last Name"
               />
             </div>
     
@@ -153,7 +151,6 @@ function EditReservation() {
                         6
                       )}-${formData.mobile_number.slice(6)}`;
                       setFormData({ ...formData, mobile_number: formatted });
-                      console.log(formatted);
                     }
                   }
                 }}

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { listTables } from "../utils/api";
+import { useHistory } from "react-router-dom";
+import { finishTable } from "../utils/api";
 import FinishTable from "./FinishTable";
 
 function Tables({ date, loadDashboard }) {
   const [tables, setTables] = useState([]);
+  const history = useHistory
    function loadTables() {
     const abortController = new AbortController();
     listTables(abortController.signal).then(setTables);
@@ -19,24 +22,24 @@ function Tables({ date, loadDashboard }) {
       
   
       return (
-        <div className="p-1 justify-content-center col-lg-5" key={index}>
+        <div className="p-1 justify-content-center  col-lg-6" key={index}>
         <div
           key={index}
-          className={`card  text-white ${
-            occupied ? " bg-dark" : "bg-success"
+          className={`card  align text-white ${
+            occupied ? "unique-color-dark" : "unique-color"
           }  align-self-center `}
         >
           <div className="card-body">
-            <h5 className="card-title text-center">{table.table_name}</h5>
-            <h4 className="card-text text-center">Capacity: {table.capacity}</h4>
+            <h5 className="card-title text-center white-text">{table.table_name}</h5>
+            <h4 className="card-text text-center white-text">Capacity: {table.capacity}</h4>
             <h4
-              className="card-text text-center"
+              className="card-text text-center white-text"
               data-table-id-status={table.table_id}
             >
-              {occupied ? "occupied" : "free"}
+              {occupied ? "Occupied" : "Free"}
             </h4>
           </div>
-          <div className="text-center w-100">
+          <div className="text-center w-100 white-text py-3">
             <FinishTable table={table} occupied={occupied} setTables={setTables} loadTables={loadTables} loadDashboard={loadDashboard}/>
             
             

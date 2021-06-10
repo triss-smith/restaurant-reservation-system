@@ -50,6 +50,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "bootstrap": "^5.0.0",
+    "mdbreact": "^5.0.2",
     "moment": "^2.29.1"
   }
 }

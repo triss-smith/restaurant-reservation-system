@@ -3,7 +3,9 @@ import Menu from "./Menu";
 import Routes from "./Routes";
 
 import "./Layout.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'; 
+import'bootstrap-css-only/css/bootstrap.min.css'; 
+import 'mdbreact/dist/css/mdb.css';
 
 /**
  * Defines the main layout of the application.
@@ -14,7 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
  */
 function Layout() {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid grey lighten-4">
       <div className="row">
         <div className="col-md-2 side-bar h-100 h-auto">
           <Menu />
