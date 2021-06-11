@@ -19,15 +19,15 @@ function EditReservation() {
             const {reservation_id} = useParams();
 
 
-    async function loadReservation() {
+    function loadReservation() {
         const abortController = new AbortController();
-        await readReservation(reservation_id, abortController.signal)
+        readReservation(reservation_id, abortController.signal)
         .then(setFormData)
         //.then(setFormData);
     }
-    useEffect(() => {        
-        loadReservation()
-    },[])
+    useEffect(        
+        loadReservation
+    ,[reservation_id])
     
 
     const handleChange = ({ target }) => {

@@ -71,7 +71,7 @@ function Reservations({ reservations, date, loadDashboard }) {
           </div>
           <div className="col-lg-6 justify-content-center py-2">
             <div className="btn-group-vertical   w-100 h-100 p-0">
-              {reservation.status == "booked" ? (
+              {reservation.status === "booked" ? (
                 <button
                   onClick={() => history.push(`/reservations/${reservation.reservation_id}/seat`)}
                   className="btn btn-outline-primary align-self-center w-75 p-1"
@@ -88,7 +88,7 @@ function Reservations({ reservations, date, loadDashboard }) {
       </div>
     );
   });
-  if (selectedDate.getDay() === 2 && pathname != "/search") {
+  if (selectedDate.getDay() === 2 && pathname !== "/search") {
     return (
         <div className="py-2 col-lg">
           <h2 className="display-4 text-center py-2">Closed on Tuesdays</h2>

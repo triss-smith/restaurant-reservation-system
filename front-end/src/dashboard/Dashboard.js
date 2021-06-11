@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
@@ -26,24 +26,27 @@ function Dashboard({ date, setDate }) {
    *if reservations is empty OR the url does not contain a query, it defaults to loading the reservations for the current date
    *and sets the date state to the current date. useEffect is only needed once in this configuration.
    */
-  function loadDashboard() {
+  const loadDashboard = useCallback(() => {
     const abortController = new AbortController();
-    setReservationsError(null);
+    
     if (pathname === "/dashboard" && !search) {
-      setDate(today());
       listReservations(today(), abortController.signal)
         .then(setReservations)
+        .then(setDate(today()))
+        .then(setReservationsError(null))
         .catch(setReservationsError);
     } else {
       //setDate(dateQuery.get('date'))
-      setDate(dateQuery.get("date"));
+      ;
       listReservations(dateQuery.get("date"), abortController.signal)
         .then(setReservations)
+        .then(setDate(dateQuery.get("date")))
         .catch(setReservationsError);
     }
     return () => abortController.abort();
-  }
-  useEffect(loadDashboard, [date]);
+  }, [dateQuery, pathname, search, setDate])
+  useEffect(() => loadDashboard(), [date]); // eslint-disable-line react-hooks/exhaustive-deps
+  
 
   /*nextDayHandler, todayHandler, previousDayHandler
    *sets the date state to the proceeding, current, and previous date, respectively using the next() function from ./utils/date-time

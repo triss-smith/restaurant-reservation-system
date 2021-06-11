@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { listTables, seatTable } from "../utils/api"
 import { useParams, useHistory } from "react-router-dom"
+import ValidationError from "../layout/ValidationError"
 
 
 function SeatTable() {
@@ -28,10 +29,11 @@ function SeatTable() {
             <option key={index} value={table.table_id}>{table.table_name} - {table.capacity}</option>
         );
         }
+        else{return null}
       });
       function handleChange({target}) {
           const tableId = target.value;
-          const table = tables.find(table => table.table_id == tableId)
+          const table = tables.find(table => table.table_id === tableId)
           setTableForSeating({...table, reservation_id: reservationId});
       }
 
@@ -48,6 +50,7 @@ function SeatTable() {
     return (
         <div className="py-3">
             <h1 className="display-4">Seat Reservation</h1>
+            <ValidationError error={tableError} setError={setTableError} />
              <form onSubmit={submitHandler}>
             <select name="table_id" className="custom-select custom-select-lg mb-3" onChange={handleChange} >
             <option value=""></option>

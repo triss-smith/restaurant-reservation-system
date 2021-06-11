@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { listTables } from "../utils/api";
-import { useHistory } from "react-router-dom";
-import { finishTable } from "../utils/api";
+//import { finishTable } from "../utils/api";
 import FinishTable from "./FinishTable";
 
 function Tables({ date, loadDashboard }) {
   const [tables, setTables] = useState([]);
-  const history = useHistory
    function loadTables() {
     const abortController = new AbortController();
     listTables(abortController.signal).then(setTables);
