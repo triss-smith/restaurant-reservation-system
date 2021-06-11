@@ -37,14 +37,15 @@ function MobileNumberSearch({date}) {
             />
             
           </div>
-        </form>
-        </div>
-      </div>
-      <div className="row justify-content-center ">
+          <div className="row justify-content-center ">
               <button className="btn btn-outline-primary w-50" type="submit">
                 Find
               </button>
             </div>
+        </form>
+        </div>
+      </div>
+      
       <div className="row text">
         <div className="justify-content-center col-lg">
      <Reservations reservations={reservations} date={date} />
