@@ -4,6 +4,7 @@ import { useHistory, useLocation } from "react-router-dom"
 
 function Reservations({ reservations, date, loadDashboard }) {
   const {pathname} = useLocation()
+  console.log(pathname)
   const history = useHistory();
   function cancelReservation(reservationId, status){
     const confirmCancel = window.confirm("Do you want to cancel this reservation? This cannot be undone.")
@@ -44,9 +45,10 @@ function Reservations({ reservations, date, loadDashboard }) {
     const formattedDate = `${
       monthNames[reservationDateTime.getMonth()]
     } ${reservationDateTime.getDate()}, ${reservationDateTime.getFullYear()}`;
+    console.log(hours);
     return (
       <div
-        className="card m-2  w-100 text-white elegant-color-dark card-width align-self-center col-lg"
+        className="card m-2  w-100 text-white bg-dark card-width align-self-center col-lg-5"
         key={index}
       >
         <div className="row">
@@ -69,41 +71,42 @@ function Reservations({ reservations, date, loadDashboard }) {
               {reservation.status}
             </p>
           </div>
-          <div className="col-lg-6 justify-content-center py-2">
-            <div className="btn-group-vertical   w-100 h-100 p-0">
+          <div className="col-lg-6 justify-content-center">
+            <div className="btn-group-vertical w-100 h-100 p-2">
               {reservation.status === "booked" ? (
-                <button
-                  onClick={() => history.push(`/reservations/${reservation.reservation_id}/seat`)}
-                  className="btn btn-outline-primary align-self-center w-75 p-1"
+                <a
+                  className="btn btn-primary m-2 justify-content-center text-center"
                   href={`/reservations/${reservation.reservation_id}/seat`}
                 >
                   Seat
-                </button>
+                </a>
               ) : null}
-              <button className="btn btn-outline-info align-self-center w-75 p-1" onClick={() => history.push(`/reservations/${reservation.reservation_id}/edit`)}href={`/reservations/${reservation.reservation_id}/edit`}>Edit</button>
-              <button className="btn btn-outline-danger align-self-center w-75 p-1" onClick={() => cancelReservation(reservation.reservation_id, "cancelled")} data-reservation-id-cancel={reservation.reservation_id}>Cancel</button>
+              <a className="btn btn-info  m-2" href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a>
+              <button className="btn btn-danger m-2" onClick={() => cancelReservation(reservation.reservation_id, "cancelled")} data-reservation-id-cancel={reservation.reservation_id}>Cancel</button>
             </div>
           </div>
         </div>
       </div>
     );
   });
+  console.log(selectedDate.getDay());
+  console.log()
   if (selectedDate.getDay() === 2 && pathname !== "/search") {
     return (
-        <div className="py-2 col-lg">
-          <h2 className="display-4 text-center py-2">Closed on Tuesdays</h2>
+      <div className="container d-flex-2">
+        <div className="row justify-content-center">
+          <h2 className="display-4 text-center">Closed on Tuesdays</h2>
         </div>
+      </div>
     );
   }
 
   if (reservations.length === 0) {
-    return (<div className="py-2 col-lg">
-      <h2 className="display-4 text-center py-2">No reservations found</h2>
-      </div>);
+    return <h2 className="display-4 text-center">No reservations found</h2>;
   }
   return (
     <div className="container d-flex-2">
-      <div className="row justify-content-center py-1">{reservationsMap}</div>
+      <div className="row justify-content-center">{reservationsMap}</div>
     </div>
   );
 }

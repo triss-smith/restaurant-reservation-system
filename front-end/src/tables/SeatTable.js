@@ -43,7 +43,6 @@ function SeatTable() {
             seatTable(tableForSeating.table_id,reservationId)
             .then(() => {
                 history.push("/dashboard")})
-                .catch(console.log())
                 //history.push("/dashboard"))
             
       }

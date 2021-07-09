@@ -34,7 +34,7 @@ function Tables({ date, loadDashboard }) {
               className="card-text text-center white-text"
               data-table-id-status={table.table_id}
             >
-              {occupied ? "Occupied" : "Free"}
+              {occupied ? "occupied" : "free"}
             </h4>
           </div>
           <div className="text-center w-100 white-text py-3">
