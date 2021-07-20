@@ -1,11 +1,33 @@
 # Restaurant Reservation System
 
-## What is this app?
+https://reservation-system-frontend.herokuapp.com/dashboard
+
+## What is this app? (Summary)
 
 This lightweight app assists in reservation and table management for clients. Utilizing a vertical slice full stack workflow, the 
 "Periodic Tables" front end and back end was developed using RESTful API's and best coding practices.
 
-### Key Features
+## Installation
+
+Fork and clone this repository. 
+
+Install Dependencies:
+
+`npm install`
+
+To run the front end:
+
+`cd front-end`
+
+`npm run start`
+
+To run the back end (development server):
+
+`cd back-end`
+
+`npm run start:dev`
+
+## Key Features
 
 - Creating Reservations
 - Editing Reservations
