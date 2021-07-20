@@ -4,7 +4,7 @@ import { useParams, useHistory } from "react-router-dom"
 import ValidationError from "../layout/ValidationError"
 
 
-function SeatTable() {
+function SeatTable({date, setDate}) {
     const { reservationId } = useParams();
     const [tables, setTables] = useState([]);
     const [tableError, setTableError] = useState([]);
@@ -33,16 +33,18 @@ function SeatTable() {
       });
       function handleChange({target}) {
           const tableId = target.value;
-          const table = tables.find(table => table.table_id === tableId)
-          setTableForSeating({...table, reservation_id: reservationId});
+          console.log(tableId)
+          setTableForSeating({table_id: tableId});
       }
 
        function submitHandler(event) {
           event.preventDefault();
-            
+            console.log(tableForSeating)
             seatTable(tableForSeating.table_id,reservationId)
             .then(() => {
-                history.push("/dashboard")})
+                setDate(date);
+                history.push(`/dashboard?date=${date}`)
+            })
                 //history.push("/dashboard"))
             
       }
@@ -57,6 +59,7 @@ function SeatTable() {
             </select>
             <button type="submit" className="btn btn-primary">submit</button>
             </form>
+            
         </div>
     );
 }

@@ -48,7 +48,7 @@ function Reservations({ reservations, date, loadDashboard }) {
     console.log(hours);
     return (
       <div
-        className="card m-2  w-100 text-white bg-dark card-width align-self-center col-lg-5"
+        className="card m-2  w-100 text-white bg-dark card-width align-self-center col-lg-10"
         key={index}
       >
         <div className="row">
@@ -78,7 +78,7 @@ function Reservations({ reservations, date, loadDashboard }) {
                   className="btn btn-primary m-2 justify-content-center text-center"
                   href={`/reservations/${reservation.reservation_id}/seat`}
                 >
-                  Seat
+                  href={`/reservations/${reservation.reservation_id}/seat`}
                 </a>
               ) : null}
               <a className="btn btn-info  m-2" href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a>

@@ -178,7 +178,7 @@ async function statusUpdate(req, res, next) {
 }
 
 async function update(req, res, next) {
-  const reservation = res.locals.reservation;
+ // const reservation = res.locals.reservation;
   const updatedReservation = req.body.data;
 
   const response = await service.update(

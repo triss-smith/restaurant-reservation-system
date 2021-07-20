@@ -222,15 +222,15 @@ describe("US-04 - Seat reservation - E2E", () => {
         path: ".screenshots/us-04-dashboard-seat-button-before.png",
         fullPage: true,
       });
-
+      console.log(reservation, "reservation")
       const hrefSelector = `[href="/reservations/${reservation.reservation_id}/seat"]`;
       await page.waitForSelector(hrefSelector);
-
+      console.log(hrefSelector)
       await page.screenshot({
         path: ".screenshots/us-04-dashboard-seat-button-after.png",
         fullPage: true,
       });
-
+      console.log("after SS")
       const containsSeat = await page.evaluate((hrefSelector) => {
         return document
           .querySelector(hrefSelector)

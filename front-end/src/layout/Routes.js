@@ -20,7 +20,7 @@ import EditReservation from "../reservations/EditReservation";
  */
 function Routes() {
   const [date, setDate] = useState(today());
-  
+
   return (
     <Switch>
       <Route exact={true} path="/">
@@ -33,10 +33,10 @@ function Routes() {
         <EditReservation />
       </Route>
       <Route path="/reservations/:reservationId/seat">
-        <SeatTable />
+        <SeatTable date={date} setDate={setDate}/>
       </Route>
       <Route exact={true} path="/reservations">
-      <Dashboard date={date} setDate={setDate} />
+      <Dashboard date={date} setDate={setDate}/>
       </Route>
       <Route path="/reservations/new">
         <NewReservation date={date} setDate={setDate}/>

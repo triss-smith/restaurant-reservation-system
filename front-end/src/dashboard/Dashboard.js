@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {  useLocation, Link } from "react-router-dom";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
@@ -31,24 +31,31 @@ function Dashboard({ date, setDate }) {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);    
-    if (pathname === "/dashboard" && !search) {
-      setDate(today()) 
-      listReservations(today(), abortController.signal)
+    
+      listReservations(date, abortController.signal)
         .then(setReservations)
         .catch(setReservationsError);
-    } 
-     else {
+    
       //setDate(dateQuery.get('date'))
-      setDate(dateQuery.get("date"));
-      listReservations( dateQuery.get("date"), abortController.signal)
-        .then(setReservations)
-        .catch(setReservationsError);
-    }
+      
+    
     return () => abortController.abort();
   }
-  console.log(date)
-  useEffect(loadDashboard, [date]);
 
+  console.log(date)
+ const callBackList =  useCallback(loadDashboard, [date]);
+ useEffect(callBackList, [callBackList])
+useEffect(() => {
+  if (pathname === "/dashboard" && !search) {
+    setDate(today()) 
+    
+  } 
+   else {
+    //setDate(dateQuery.get('date'))
+    setDate(dateQuery.get("date"));
+    
+  }
+}, [pathname, dateQuery, search, setDate])
   /*nextDayHandler, todayHandler, previousDayHandler
   *sets the date state to the proceeding, current, and previous date, respectively using the next() function from ./utils/date-time
   *Called with the Link elements
@@ -94,10 +101,10 @@ function Dashboard({ date, setDate }) {
       </div>
       <div className="row">
         <div className="col-lg-6 reservations_box">
-          <Reservations reservations={reservations} date={date} loadDashboard={loadDashboard}/>
+          <Reservations reservations={reservations} date={date} loadDashboard={callBackList}/>
         </div>
         <div className="col-lg-6">
-        <Tables date={date} loadDashboard={loadDashboard}/>
+        <Tables date={date} loadDashboard={callBackList}/>
         </div>
         
       </div>
