@@ -29,13 +29,34 @@ To run the back end (development server):
 
 ## Key Features
 
-- Creating Reservations
-- Editing Reservations
-- Cancelling Reservations
-- Reservation Lookup with Mobile Number Search
-- Creating Tables
-- Seating Reservations at Tables
-- Displaying Reservations and Tables on an Easy-To-Use Dashboard
+- ### Creating Reservations
+
+![Periodic Tables Restaurant Reservation System - Google Chrome 7_20_2021 10_55_25 PM](https://user-images.githubusercontent.com/44349470/126428593-d4a10f56-60ce-4037-a139-abf65958adba.png)
+
+- ### Editing Reservations
+
+![Periodic Tables Restaurant Reservation System - Google Chrome 7_20_2021 10_55_44 PM](https://user-images.githubusercontent.com/44349470/126428648-2a4e4eb7-7289-480c-b2f7-f737c6e77f1d.png)
+
+- ### Cancelling Reservations
+
+![Periodic Tables Restaurant Reservation System - Google Chrome 7_20_2021 10_58_36 PM](https://user-images.githubusercontent.com/44349470/126428717-0fe867c2-27ae-4165-947b-6cffd51a9bb9.png)
+
+- ### Reservation Lookup with Mobile Number Search
+
+![Periodic Tables Restaurant Reservation System - Google Chrome 7_20_2021 10_55_18 PM](https://user-images.githubusercontent.com/44349470/126428733-ccb84ca2-9e62-4022-b086-182b0b84b8bc.png)
+
+- ### Creating Tables
+
+![Periodic Tables Restaurant Reservation System - Google Chrome 7_20_2021 10_55_34 PM](https://user-images.githubusercontent.com/44349470/126428747-9897bbaa-7c38-4fa1-bb84-3ff3e8aa6a11.png)
+
+- ### Seating Reservations at Tables
+
+![Periodic Tables Restaurant Reservation System - Google Chrome 7_20_2021 10_55_56 PM](https://user-images.githubusercontent.com/44349470/126428762-20180b75-aaad-4210-8268-050a14e7201a.png)
+
+- ### Displaying Reservations and Tables on an Easy-To-Use Dashboard
+
+![Periodic Tables Restaurant Reservation System - Google Chrome 7_20_2021 10_55_07 PM](https://user-images.githubusercontent.com/44349470/126428782-9a313414-c690-48b5-b2f9-dfbe3a4e3a8c.png)
+
 
 # **API Documentation**
 
