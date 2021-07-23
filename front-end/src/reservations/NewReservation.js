@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { postReservation } from "../utils/api";
 import { useHistory } from "react-router-dom";
 import ValidationError from "../layout/ValidationError";
+import ReservationForm from "./ReservationForm";
 
 function NewReservation({ date, setDate }) {
   const [errors, setErrors] = useState([]);
@@ -20,25 +21,12 @@ function NewReservation({ date, setDate }) {
   const [formData, setFormData] = useState({
     ...defaultForm,
   });
-  /*handleChange
-   * handles the data inputted from the form input elements. Takes the target element's name and value attributes(corresponding with formData)
-   * and updates formData
-   */
-  const handleChange = ({ target }) => {
-    if (errors) {
-      setErrors([]);
-    }
-    if (target.name === "people") {
-      return setFormData({ ...formData, [target.name]: Number(target.value) });
-    }
-    setFormData({ ...formData, [target.name]: target.value });
-  };
+  
+  
   /*cancelRedirect
    * simple function to handle the push to the previous page on cancel
    */
-  function cancelRedirect() {
-    history.goBack();
-  }
+  
   /*dateInPast
    * accepts the date to be checked and the current date.
    * Returns true if the date is in the past, false if not.
@@ -94,7 +82,6 @@ function NewReservation({ date, setDate }) {
     }
     await postReservation(formData).then(() =>{
       //setDate(formData.reservation_date);
-
       history.push(`/dashboard?date=${formData.reservation_date}`)
     });
   }
@@ -103,108 +90,7 @@ function NewReservation({ date, setDate }) {
     <div className="d-flex-1  pt-3">
       <ValidationError errors={errors} setErrors={setErrors} />
       <h1 className="display-4 text-center py-1">Create Reservation</h1>
-      <form onSubmit={handleSubmit} className="py-4" autoComplete="off">
-        <div className="form-group">
-          <label htmlFor="first_name">First Name:</label>
-          <input
-            type="search"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            required={true}
-            className="form-control"
-            placeholder="First Name"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="last_name">Last Name:</label>
-          <input
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            required={true}
-            className="form-control"
-            placeholder="Last Name"
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="mobile_number">Mobile Number:</label>
-          <input
-            name="mobile_number"
-            type="tel"
-            value={formData.mobile_number}
-            onChange={handleChange}
-            onBlur={() => {
-              if (formData.mobile_number !== "") {
-                if (formData.mobile_number.length === 10) {
-                  const formatted = `${formData.mobile_number.slice(
-                    0,
-                    3
-                  )}-${formData.mobile_number.slice(
-                    3,
-                    6
-                  )}-${formData.mobile_number.slice(6)}`;
-                  setFormData({ ...formData, mobile_number: formatted });
-                }
-              }
-            }}
-            required={true}
-            maxLength="12"
-            placeholder="ex. 1234567890"
-            className="form-control"
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="reservation_date">Date of Reservation:</label>
-          <input
-            type="date"
-            name="reservation_date"
-            className="form-control"
-            value={formData.reservation_date}
-            onChange={handleChange}
-            required={true}
-            maxLength="10"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="reservation_time">Time of Reservation:</label>
-          <input
-            type="time"
-            name="reservation_time"
-            className="form-control"
-            value={formData.reservation_time}
-            onChange={handleChange}
-            required={true}
-            maxLength="8"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="people">Party Size:</label>
-          <input
-            className="form-control"
-            name="people"
-            value={formData.people}
-            type="number"
-            
-            onChange={handleChange}
-            required={true}
-          />
-        </div>
-        <div
-          className="btn-group btn-group-lg d-flex justify-content-center py-2"
-          role="group"
-          aria-label="..."
-        >
-          <button className="btn btn-primary mx-2 w-50" type="submit">
-            Submit
-          </button>
-          <button className="btn btn-danger mx-2 w-50" onClick={cancelRedirect}>
-            Cancel
-          </button>
-        </div>
-      </form>
+      <ReservationForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} errors={errors} setErrors={setErrors}/>
     </div>
   );
 }

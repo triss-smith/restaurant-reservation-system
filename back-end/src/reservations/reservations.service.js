@@ -18,14 +18,12 @@ function read(reservationId) {
     .first();
 }
 function update(reservationId, reservation) {
-  console.log(reservationId, reservation);
   return knex("reservations")
     .where({ reservation_id: reservationId })
     .update(reservation)
     .returning("*");
 }
 function updateStatus(reservationId, reservation) {
-  console.log(reservationId, reservation);
   return knex("reservations")
     .where({ reservation_id: reservationId })
     .update(reservation)

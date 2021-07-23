@@ -167,13 +167,11 @@ async function statusUpdate(req, res, next) {
   const reservation = res.locals.reservation;
   const newStatus = res.locals.status;
   const updatedReservation = { ...reservation, status: newStatus };
-  //console.log(newStatus, updatedReservation);
 
   const response = await service.updateStatus(
     updatedReservation.reservation_id,
     updatedReservation
   );
-  console.log(response);
   res.status(200).json({ data: { status: response[0] } });
 }
 

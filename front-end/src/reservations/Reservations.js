@@ -4,7 +4,6 @@ import { useHistory, useLocation } from "react-router-dom"
 
 function Reservations({ reservations, date, loadDashboard }) {
   const {pathname} = useLocation()
-  console.log(pathname)
   const history = useHistory();
   function cancelReservation(reservationId, status){
     const confirmCancel = window.confirm("Do you want to cancel this reservation? This cannot be undone.")
@@ -45,11 +44,10 @@ function Reservations({ reservations, date, loadDashboard }) {
     const formattedDate = `${
       monthNames[reservationDateTime.getMonth()]
     } ${reservationDateTime.getDate()}, ${reservationDateTime.getFullYear()}`;
-    console.log(hours);
     return (
       <div
         className="card m-2  w-100 text-white bg-dark card-width align-self-center col-lg-10"
-        key={index}
+        key={reservation.reservation_id}
       >
         <div className="row">
           <div className="card-body col-lg-6">
@@ -78,7 +76,7 @@ function Reservations({ reservations, date, loadDashboard }) {
                   className="btn btn-primary m-2 justify-content-center text-center"
                   href={`/reservations/${reservation.reservation_id}/seat`}
                 >
-                  href={`/reservations/${reservation.reservation_id}/seat`}
+                  Seat
                 </a>
               ) : null}
               <a className="btn btn-info  m-2" href={`/reservations/${reservation.reservation_id}/edit`}>Edit</a>
@@ -89,8 +87,6 @@ function Reservations({ reservations, date, loadDashboard }) {
       </div>
     );
   });
-  console.log(selectedDate.getDay());
-  console.log()
   if (selectedDate.getDay() === 2 && pathname !== "/search") {
     return (
       <div className="container d-flex-2">

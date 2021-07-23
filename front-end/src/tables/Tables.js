@@ -22,7 +22,7 @@ function Tables({ date, loadDashboard }) {
       return (
         <div className="p-1 justify-content-center  col-lg-6" key={index}>
         <div
-          key={index}
+          key={table.table_id}
           className={`card  align text-white ${
             occupied ? "unique-color-dark" : "unique-color"
           }  align-self-center `}

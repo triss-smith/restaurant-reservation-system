@@ -8,8 +8,8 @@
 }
 
 .formStyle {
-  margin: 10px 10px 10px 10px;
-  justify-content: center;
+  max-width:1000px;
+  margin: 0 auto
 }
 .center{
   justify-content: center;
